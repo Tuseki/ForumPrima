@@ -1,23 +1,39 @@
 <?php
- function forum_user_connexion(){
- 	$_SESSION['usersession'] = new ForumSession();
-	$_SESSION['usersession']->connexion();
- }
- function check_user_connexion(){
- 	if(isset($_POST['login']) && isset($_POST['password'])){ 	
- 		$login = htmlEntities($_POST['login']);
- 		$password = md5(htmlEntities($_POST['password']));
- 		
- 		$db = Forum_Mysql::get_Forum_Mysql();
- 		if($db->check_user_password($login,$password)){
-     	  		$_POST['connexionvalided'] = true;
- 		}
- 		else $_POST['connexionvalided'] = false;
+
+require_once(APPPATH.'/model/DAO/UserDAO.php');
+
+class User_Connexion{
+	static function is_already_Connected(){
+		if( !isset($_SESSION['usersession']) || !$_SESSION['usersession']->isConnected())
+		{
+			return false;
+		}
+		else return true;
+	}
+
+	 static function forum_user_connexion(){
+	 	$_SESSION['usersession'] = new ForumSession();
+		$_SESSION['usersession']->connexion();
+	 }
+	 
+	/*
+     * cette fonction regarde si une connexion est possible en regardant 
+     * le login/password donné en paramètre et regarde s'ils correspondent à ceux dans la DB
+     * 
+     * retourne true si c'est le cas
+     * retourne false sinon
+     */
+ 	static function user_connexion_attempt($login,$password){ 		 
+ 			$password = md5($password); 
+ 					    
+ 		    $userDAO = new UserDAO();
+ 		    return $userDAO->user_connexion_attempt($login,$password); 		     		  
  	}
- }
- function user_deconnexion(){ 	
-	if(isset($_SESSION['usersession']) && $_SESSION['usersession']->isConnected()){
-		session_destroy();		
-	}	
- }
+	 static function user_deconnexion(){ 	
+		if(isset($_SESSION['usersession']) && $_SESSION['usersession']->isConnected()){
+			session_destroy();		
+		}	
+	 }
+}
+  
 ?>

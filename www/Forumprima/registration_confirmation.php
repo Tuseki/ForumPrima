@@ -7,34 +7,30 @@
 	require(RELATIVEAPPROOT.'/view/templates/PageBody.php');
 	require(RELATIVEAPPROOT.'/view/templates/ForumDisplayTools.php');
 	require(RELATIVEAPPROOT.'/view/templates/Messages.php'); 
-	require(RELATIVEAPPROOT.'/model/DAO/mysql.php');
+	require(RELATIVEAPPROOT.'/model/tools/Registertools.php');
 	
-		/*
-		 * controller
+		/**
+		 * init param
 	 	 */
-	 	session_start();
-	 	$err_message ='';	 
-	 	
-	 	$is_valided = false;		 		 
-	    	
+	 	session_start();	 		 	 
+	 	$isValided = false;		 		 
+	 		    
+	    /**
+		 * controller
+	 	 */	
 	    //si les param sont bien initialisé ... 	 		 	
 	    if (isset($_GET['code']) &&  isset($_GET['login'])){
 	 	 	$code = htmlentities($_GET['code']);
 	 	 	$login = htmlentities($_GET['login']);
-	 	 	
-	 	 	// ... on vérifie si le code est correct avec celui dans la DB
-	 	  	$db = Forum_Mysql::get_Forum_Mysql();
-	 	  	$db->compare_user_code($login,$code);
-	 	 	// si c'est le cas, on active le compte
-	 	 	$db->set_user_active($login,true);
-	 	 	$is_valided = true;
+	 	 	$registerTools = new RegisterTools();
+	 	 	$isValided = $registerTools->activate_user($login,$code);	 	 	
 	 	 }	
 	    	    
 	 	/**
 	 	 * écriture de la vue
 	 	 */ 
 	 	 //si on a pu valider le code
-	 	 if ($is_valided){
+	 	 if ($isValided){
 	 	    $display = forumHeader()."\n".	
 	  		m_register_confirm()."\n".
 	  		forumFooter()."\n";	 	 

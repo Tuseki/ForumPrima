@@ -1,6 +1,6 @@
 <?php
 
- require(APPPATH.'/model/class/Session.php');  	
+ require(APPPATH.'/model/class/SessionTools.php');  	
 
  function userMenu(){ 	 	 	
  	if(isset($_SESSION['usersession']) 

@@ -24,8 +24,7 @@
  	else echo 'Unable to open ' . $file . '.'; 
  
  //Message d'erreur
- define('ERR_IS_NOT_CO',utf8_encode('Vous ne pouvez pas accéder à cette page si vous n\'êtes pas connecté'));
- define('ERR_IS_CO',utf8_encode('Vous ne pouvez pas accéder à cette page ca vous êtes déjà connecté'));
+ 
  define('INVALID_PARAM',utf8_encode('Erreur interne : Les paramètres pour l\'appel de ce script n\'ont pas été correctement initialisé'));
  
  //fonction d'erreur 

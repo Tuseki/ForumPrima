@@ -22,7 +22,7 @@
         	die('Une erreur est survenue lors de la connection à la DB!');
 		}		 		 		 		 	
  	} 
- 	public static function get_Forum_Mysql(){
+ 	public static function getInstance(){
  		if(!isset(self::$forum_mysql)){
  			self::$forum_mysql = new Forum_Mysql(); 			
  		}

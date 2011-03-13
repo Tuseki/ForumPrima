@@ -1,11 +1,12 @@
 <?php
-  class ForumDataTools{
+  require_once(APPPATH.'/model/DAO/mysql.php');
+  class ForumDAO{
   	
   	 private $db; 
   	 
   	 public function __construct()
      {
-        $this->db = Forum_Mysql::get_Forum_Mysql(); 
+        $this->db = Forum_Mysql::getInstance(); 
      }  	 
   	 
   	 /*  

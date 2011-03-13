@@ -7,47 +7,59 @@
 	require(RELATIVEAPPROOT.'/view/templates/PageBody.php');
 	require(RELATIVEAPPROOT.'/view/templates/ForumDisplayTools.php');
 	require(RELATIVEAPPROOT.'/model/class/ForumTreeClasses.php');
+	require(RELATIVEAPPROOT.'/model/tools/ConnexionTools.php');
 	
 	/**
-	 * controller
-	 */
+	 * init param
+	 */	
 	session_start();
+	$isConnected = User_Connexion::is_already_Connected();
 	$post = null;
 	$action = null;
 	$forum_id = null;
 	
-	//s'il y a une action
-	if(isset($_GET['action'])){
-		$action = htmlEntities($_GET['action']);
-		if(is_string($action)){
-			//si l'action est reply
-			if($action == "reply")
-			{	
-				$post_id = htmlEntities($_GET['id']);
-				if(isset($post_id) && is_numeric($post_id)){
-					//Debugg test			
-					$text = htmlEntities("ceci est un message du topic");				
-					$post = new Post();
-					$post->setPostText($text);
-					$post->setTopicName("re : topic");
-				}				
+	/**
+	 * controller
+	 */		
+			
+		//s'il y a une action
+		if(isset($_GET['action'])){
+			$action = htmlEntities($_GET['action']);
+			if(is_string($action)){
+				//si l'utilisateur est connecté
+				if( $isConnected)
+				{
+					//si l'action est reply
+					if($action == "reply")
+					{	
+						$post_id = htmlEntities($_GET['id']);
+						if(isset($post_id) && is_numeric($post_id)){
+							//Debugg test			
+							$text = htmlEntities("ceci est un message du topic");				
+							$post = new Post();
+							$post->setPostText($text);
+							$post->setTopicName("re : topic");
+						}				
+					}
+					//si l'action est new
+					if($action == "new")
+					{
+						//debugg test
+						$forum_id = 1;
+						
+						
+					}
+					//si l'action est edit
+					if($action == "edit")
+					{
+						
+					}	
+				}		
 			}
-			//si l'action est new
-			if($action == "new")
-			{
-				//debugg test
-				$forum_id = 1;
-				
-				
-			}
-			//si l'action est edit
-			if($action == "edit")
-			{
-				
-			}			
+			else $action = null;
 		}
-	}
-		
+	
+			
 	
 	/**
 	 * écriture de la vue
@@ -57,7 +69,7 @@
 	//s'il y a une action
 	if($action!= null){
 		//si le user est connecté
-		if(isset($_SESSION['usersession']) && $_SESSION['usersession']->isConnected()){
+		if($isConnected){
 			//si l'action est reply
 			if($action == "reply")
 			{

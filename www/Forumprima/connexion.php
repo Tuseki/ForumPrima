@@ -2,54 +2,65 @@
 		/**
 	 	 * import
 	 	 */  
-		require('../../Forumprima/config/Conf.php');
-		require(RELATIVEAPPROOT.'/model/tools/connexionTools.php');
+		require('../../Forumprima/config/Conf.php');		
   		require(RELATIVEAPPROOT.'/view/templates/PageBody.php'); 
   		require(RELATIVEAPPROOT.'/view/templates/Messages.php');
-  		require(RELATIVEAPPROOT.'/view/templates/ConnexionForms.php');
- 		require(RELATIVEAPPROOT.'/model/DAO/mysql.php');
-  		
+  		require(RELATIVEAPPROOT.'/view/templates/ConnexionForms.php'); 		 		
+ 		require(RELATIVEAPPROOT.'/model/tools/ConnexionTools.php');
+ 		
+  		DEFINE ("WRONG_LOGIN",htmlentities("Nom d'utilisateur inconnu où mot de passe incorrecte"));
   		
   		/**
 		 * controller
-	 	*/
-	 	
-	 	Define("WRONG_LOGIN",htmlentities("Nom d'utilisateur inconnu où mot de passe incorrecte")); 
-	 	
+	     */	 		 	 	 	
 	 	session_start();
-	 	$err_message ='';	 		 		 
-	    check_user_connexion();	 		 	
-	    	    
+	 	
+	 	$isConnected = User_Connexion::is_already_Connected();	 	
+	 	
+	 	//si l'utilisateur n'est pas deja connecté
+		if( $isConnected == false)
+		{
+		 	$err = '';
+		 	//valide la connexion	 		 
+		 	if(isset($_POST['login']) && isset($_POST['password'])){
+				$login = htmlEntities($_POST['login']);
+	 			$password = htmlEntities($_POST['password']);
+		    	$_POST['connexionvalided'] = User_Connexion::user_connexion_attempt($login,$password);	 		 	
+		    }    
+		      
+		    	    
+		    //si la demande connexion est invalide 
+		    if (isset($_POST['connexionvalided']) && $_POST['connexionvalided'] == false)    
+		    	$err = WRONG_LOGIN;	    
+		    //	sinon 
+		    else if (isset($_POST['connexionvalided']) && $_POST['connexionvalided'] == true) 
+		    	User_Connexion::forum_user_connexion();
+		 }
+	    
+	    
 	 	/**
 	 	 * écriture de la vue
 	 	 */ 
 	 	 //si l'utilisateur n'est pas deja connecté
-		 if( !isset($_SESSION['usersession']) || !$_SESSION['usersession']->isConnected())
-		 { 
-		 	 // si c'est la première tentative de connection
-		 	 if(!isset($_POST['connexionvalided'])){
-		 	 	$display = forumHeader()."\n".	
-	  		 		connexionForm($err_message)."\n".
-	  		    	forumFooter()."\n";	  		
-		 	 }//si ce n'est pas le bon login/mdp 
-		 	 else if ($_POST['connexionvalided'] == false){
-		 	 	  $err_message = WRONG_LOGIN;
-	  			$display = forumHeader()."\n".	
-	  		 		connexionForm($err_message)."\n".
-	  		    	forumFooter()."\n";	  		    		  		    
-		 	 }
-		 	 //si la demande de connexion est valide
-		 	 else{		 	 			 	 
-				forum_user_connexion();
-																		
+		 if( $isConnected == false)
+		 {
+		 	//si la connexion est invalide
+		 	if(!isset($_POST['connexionvalided']) || ($_POST['connexionvalided'] == false)){
+		 					 				 		
+		 		$display = forumHeader()."\n".
+	  			connexionForm($err)."\n".
+	  			forumFooter()."\n";	
+		 	}		 	
+	  		//si la demande de connexion est valide
+		 	 else{ 	 			 	 																						
 				header('Location: index.php');
 		 	 }
 		 }
 		 //si l'utilisateur est déjà connecté
 		 else {
-			$display =  forumHeader()."\n".						
-				  m_user_already_connected()."\n".
-				  forumFooter()."\n";		
+				$display =  forumHeader()."\n".						
+				m_user_already_connected()."\n".
+				forumFooter()."\n";		
 		 }
 		 
   		/**

@@ -6,20 +6,26 @@
 		require(RELATIVEAPPROOT.'/model/tools/connexionTools.php');
 		require(RELATIVEAPPROOT.'/view/templates/Messages.php');
   		require(RELATIVEAPPROOT.'/view/templates/PageBody.php'); 
-  		require(RELATIVEAPPROOT.'/view/templates/ConnexionForms.php');  		
-  		
+  		require(RELATIVEAPPROOT.'/view/templates/ConnexionForms.php');  		  		 		 		
+ 		
   		/**
 		 * controller
 	 	 */
 	 	session_start();
-	 	user_deconnexion();
-	 	 	 			 	
+	 	
+	 	$isConnected = User_Connexion::is_already_Connected();	 	
+	 	
+	 	//si l'utilisateur est deja connecté
+		if( $isConnected)
+		{ 	
+	 		User_Connexion::user_deconnexion();
+		}	 			 	
 	 	/**
 	 	 * écriture de la vue
 	 	 */ 
 	 	 
 	 	//si l'utilisateur n'est pas connecté
- 	    if(! isset($_SESSION['usersession']) || $_SESSION['usersession']->isConnected() == false){
+ 	    if($isConnected == false){
  	    		$display = forumHeader()."\n".	
 	  	 		m_user_not_connected()."\n".
 	  	    	forumFooter()."\n";

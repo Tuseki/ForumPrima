@@ -1,11 +1,5 @@
 <?php
-/*
- * Created on 1 déc. 2010
- *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
- */
- class ForumSession{
+class ForumSession{
  	private $isConnected;
  	
  	public function isConnected(){
@@ -22,10 +16,7 @@
  			$this->isConnected = $bool;
  		}
  		// si le parametre est pas un boolean, on se connecte pas
- 		else $this->isConnected = false; 
- 		
- 	}
- 	
- 	
+ 		else $this->isConnected = false;  		
+ 	}  
  }
 ?>

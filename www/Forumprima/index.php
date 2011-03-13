@@ -8,9 +8,9 @@
 	require(RELATIVEAPPROOT.'/model/class/ForumTreeClasses.php');
 	require(RELATIVEAPPROOT.'/view/templates/PageBody.php');
 	require(RELATIVEAPPROOT.'/view/templates/ForumDisplayTools.php');
-	require(RELATIVEAPPROOT.'/model/DAO/ForumDataTools.php');
-	require(RELATIVEAPPROOT.'/model/DAO/Mysql.php');
-			
+	require(RELATIVEAPPROOT.'/model/tools/ForumDataTools.php');
+	
+    			
 			
 	/**
 	 * controller
