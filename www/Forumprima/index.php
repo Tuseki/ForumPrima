@@ -1,0 +1,38 @@
+
+<?php
+	
+	/**
+	 * import
+	 */	
+	require('../../Forumprima/config/Conf.php');	  	
+	require(RELATIVEAPPROOT.'/model/class/ForumTreeClasses.php');
+	require(RELATIVEAPPROOT.'/view/templates/PageBody.php');
+	require(RELATIVEAPPROOT.'/view/templates/ForumDisplayTools.php');
+	require(RELATIVEAPPROOT.'/model/DAO/ForumDataTools.php');
+	require(RELATIVEAPPROOT.'/model/DAO/Mysql.php');
+			
+			
+	/**
+	 * controller
+	 */
+	session_start();	
+	
+	//on initalise la list des catégorie 	  	 	 	
+	$forumDataTools = new ForumDataTools();
+	$cat_list = $forumDataTools->get_cat_list();
+				
+	
+	/**
+	 * écriture de la vue
+	 */
+	 $display = forumHeader().	
+	 cat_list_display($cat_list->getCatList()).
+	 ForumFooter();
+	
+	
+	
+	/**
+	 * affichage de la vue 
+	 */	 
+	echo $display;
+?>

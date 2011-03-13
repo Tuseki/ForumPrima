@@ -1,0 +1,78 @@
+@charset "utf-8";
+
+div.topictitre{
+	
+	text-align:left;
+	padding-left:30px;
+	margin:auto;
+	margin-top:15px;
+	
+	width:870px;
+			
+	height:50px;
+	background-color:#B90012;	
+	
+	border:2px #900 solid;		
+	
+	display:table;
+
+}
+div.avatar{
+	margin:auto;
+	float:left;
+	
+	width:170px;
+	min-height:125px;
+	background-color:#333;
+	
+	border-bottom:2px;
+	border-bottom-color:#900;
+	border-bottom-style:solid;
+
+	border-right:2px;
+	border-right-color:#900;
+	border-right-style:solid;
+
+	border-left:2px;
+	border-left-color:#900;
+	border-left-style:solid;
+	
+}
+div.post{
+	margin:auto;
+	float:left;	
+	width:728px;
+	min-height:125px;
+	background-color:#333;
+
+	border-bottom:2px;
+	border-bottom-color:#900;
+	border-bottom-style:solid;
+
+	border-right:2px;
+	border-right-color:#900;
+	border-right-style:solid;
+
+}
+div.postmenu{
+	height:35px;
+	
+}
+a.topicbutton{
+	margin-right:15px;
+}
+span.posttitle{
+	margin-left:15px;
+	float:left;
+	font-size:12px;	
+}
+div.postcontent{
+	margin-left:15px;
+}
+p.topictext{
+
+	color:#FFFFFF;
+	text-align:left;
+	font-size:14px;
+	font-color:#FFFFFF;
+}
