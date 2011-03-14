@@ -52,6 +52,9 @@
 				$topic= new topic();
 				$topic->setTopicName("Nom du topic");
 				$topic->setPostList($post_list);
+				
+				$forumDataTools = new ForumDataTools();
+				$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_TOPIC,$topic_id);
 			}
 		}
 		else $topic_id = null;
@@ -68,7 +71,7 @@
 		if($isConnected){
 			$css_list[0] = "style_topic.css";
 			$display =  forumHeader(true,$css_list)."\n".						
-			  	topic_display($topic)."\n".
+			  	topic_display($topic,$ariane)."\n".
 			  	forumFooter()."\n";	
 		}		
 		//si l'utilisateur n'est pas connecté

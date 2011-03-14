@@ -78,5 +78,24 @@
   	 		return $forum;
   	 	
   	 }
+  	 public function get_topic_ariane(&$ariane,$topic_id){
+  	 	$result = $this->db->get_topic_path($topic_id);
+  	 	
+  	 	$ariane[1]['name']= $result['cat_name'];
+		$ariane[1]['link']= WEBADRESSROOT."index.php";
+  	 	$ariane[2]['name']= $result['forum_name'];
+		$ariane[2]['link']= WEBADRESSROOT."forum.php?id=".$result['forum_id'];
+		$ariane[3]['name']= $result['topic_name'];
+		$ariane[3]['link']= WEBADRESSROOT."viewTopic.php?id=".$result['topic_id'];
+				
+  	 }
+  	 public function get_forum_ariane(&$ariane,$forum_id){
+  	 	$result= $this->db->get_forum_path($forum_id);
+  	 	  	 	
+  	 	$ariane[1]['name']= $result['cat_name'];
+		$ariane[1]['link']= WEBADRESSROOT."index.php";
+		$ariane[2]['name']= $result['forum_name'];
+		$ariane[2]['link']= WEBADRESSROOT."forum.php?id=".$result['forum_id'];;
+  	 }
   }
 ?>

@@ -178,5 +178,34 @@
  			}
  		}
  	 }
+ 	 
+ 	 public function get_topic_path($topic_id){
+ 	 	if (isset($this->DBConnect)){
+ 			try{		 	
+ 				$result = $this->DBConnect->query("SELECT topic_id, topic_name, forum_name, forum_forum.forum_id, cat_name " .
+ 								"FROM forum_forum,forum_topic,forum_cat " .
+ 								"WHERE topic_id = ".$topic_id." AND forum_topic.forum_id = forum_forum.forum_id AND forum_forum.cat_id = forum_cat.cat_id"); 				
+ 				return $result->fetch();
+ 								 				 			 				 	
+ 			}
+ 			catch(Exception $e){
+ 				die ("select error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+ 	 }
+ 	 public function get_forum_path($forum_id){
+ 	 	if (isset($this->DBConnect)){
+ 			try{		 		 				
+ 				$result = $this->DBConnect->query("SELECT forum_name, forum_id, cat_name " .
+ 								"FROM forum_forum, forum_cat " .
+ 								"WHERE forum_id = ".$forum_id." AND forum_forum.cat_id = forum_cat.cat_id"); 				
+ 				return $result->fetch();
+ 								 				 			 				 	
+ 			}
+ 			catch(Exception $e){
+ 				die ("select error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+ 	 }
 }
 ?>

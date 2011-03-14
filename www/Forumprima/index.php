@@ -19,14 +19,14 @@
 	
 	//on initalise la list des catégorie 	  	 	 	
 	$forumDataTools = new ForumDataTools();
-	$cat_list = $forumDataTools->get_cat_list();
-				
+	$cat_list = $forumDataTools->get_cat_list();								
+	$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_INDEX);	
 	
 	/**
 	 * écriture de la vue
 	 */
 	 $display = forumHeader().	
-	 cat_list_display($cat_list->getCatList()).
+	 cat_list_display($cat_list->getCatList(),$ariane).
 	 ForumFooter();
 	
 	

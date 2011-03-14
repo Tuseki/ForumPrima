@@ -46,11 +46,11 @@
  	return utf8_encode($data);
  }
 
- function cat_list_display($cat_list){
+ function cat_list_display($cat_list,$ariane){
  	$data = '';
-	
+	$data .= ariane($ariane)."\n";
 	foreach($cat_list AS $index => $cat){
-		$data  .= '<div>'."\n". 
+		$data  .= '<div>'."\n".				   
 		           titleCanvas($cat->getCatName());      		     
 		foreach($cat->getForumList() AS $forum_index => $forum){
 			    			
@@ -60,11 +60,12 @@
 	}	 	
  	return $data;
  }
- function forum_display($forum){
+ function forum_display($forum,$ariane){
  	$data = '';
 	
 	$data  .= '<div>'."\n". 
-			  forum_menu()."\n".	
+			  forum_menu()."\n".
+			  ariane($ariane)."\n".
 	          titleCanvas($forum->getForumName());      		     
 	foreach($forum->getTopicList() AS $topic_index => $topic){		    		
 		$data .= subjectCanvas($topic->getTopicName(),$topic->getTopicId(),'viewTopic');	
@@ -72,10 +73,11 @@
 		$data .= '</div>'."\n";		 		    		    			 
  	return $data;
  }
- function topic_display($topic){
+ function topic_display($topic,$ariane){
  	$data = '';
  	
  	$data  .= '<div>'."\n". 
+ 			ariane($ariane)."\n".
  			topicTitleCanvas($topic->getTopicName())."\n". 			
  			'		<div style="margin-left:15px">'."\n";
  			           
@@ -119,6 +121,16 @@
  			';
  	return utf8_encode($data);
  }
- 
+ function ariane($arianeData){
+ 	$data = '';
+ 	$data ='<br><div style="margin-left:15px;float:left">'; 		 			   
+ 	foreach($arianeData as $key => $ariane){
+ 		$data .= '<a href="'.$ariane['link'].'">'.$ariane['name'].'</a> ';
+ 		if (isset($arianeData[$key+1])) $data .= ' > ';	// si il y en a un encore après 		
+ 	}
+ 	$data .='</div>
+ 			<div style="clear:both"/>';	
+ 	return utf8_encode($data);
+ }
 
 ?>
