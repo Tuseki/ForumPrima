@@ -146,7 +146,7 @@
     	/**
     	 * contient des objets de type Topic;
     	 */
-    	$this->topicList = array();    	
+    	$this->topic_list = array();    	
     	
     }
     private function construct2($title)
@@ -158,7 +158,7 @@
     	/**
     	 * contient des objets de type Topic;
     	 */
-    	$this->topicList = array();    	   
+    	$this->topic_list = array();    	   
     }
     private function construct3 ($title,$topicList)
     {    	
@@ -170,7 +170,7 @@
     		/**
 	    	 * contient des objets de type Topic;
     	 	 */    
-    		$this->topicList = $topicList;      
+    		$this->topic_list = $topicList;      
     	else throw new Exception("second param is not an array");    	    	    		    	    
     }
       
@@ -223,8 +223,8 @@
  	 * Constructor 
  	 */
     public function __construct()
-    {
-    
+    {   	 	
+	 	$this->post_list = array();		
     }
       
  	public function getTopicId(){
@@ -296,6 +296,7 @@
 	 private $post_date; //date de création
 	 private $topic_id;
 	 private $topic_name;
+	 
 	 
 	 public function getPostId(){
 	 	return $this->post_id;

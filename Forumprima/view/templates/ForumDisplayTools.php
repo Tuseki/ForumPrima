@@ -26,12 +26,12 @@
  	$data ='';
  	 	
  	
- 	$data .=			 '   <div><div class="avatar" >
-                    			avatar
-						     </div>
+ 	$data .=			 '   <div><div class="avatar" >'.
+                    			$post->getPoster().
+						    '</div>
             			     <div class="post" >
                     		 	<div class="postmenu"><p>
-									<span class = "posttitle">posté par XXX le XXXX</span>
+									<span class = "posttitle">posté le XXXX</span>
 		                            <span style="float:right">';
 	$data .= $mustShowMenu? '<a href ="" class="topicbutton">Citer</a>
         		             <a href ="./post.php?action=reply&id='.$post->getPostId().'" class="topicbutton">Répondre</a></span>': '';	                	               
@@ -98,7 +98,7 @@
  			'		<div style="margin-left:15px">'."\n"; 			
  	$data .= postCanvas($post,false);	
  	$data .='<div style="clear:both"/>                      	
-                   	<FORM action="" method="poster">                        
+                   	<FORM action="" method="post">                        
                        	<div style="padding-top:50px;padding-bottom:25px">
                        		<textarea style="margin:auto;width:600px;height:300px;overflow:hidden;border:#900 solid 3px"></textarea>   
                                <div style="height:25px"></div>      

@@ -15,13 +15,14 @@ class ForumDataTools{
   	  * retourne un objet de type CategorieList
   	  */ 
   	 public function get_cat_list(){  	 	
-  	 	return $this->forumDAO->get_cat_list();;
+  	 	return $this->forumDAO->get_cat_list();
   	 }
-  	 private function get_forum_list($cat_id){
-  	 	return $this->forumDAO->get_forum_list($cat_id);  	
+  	 
+  	 public function get_forum($forum_id,$forum_name){
+  	 	return $this->forumDAO->get_forum($forum_id,$forum_name);  	 	
   	 }
-  	 public function get_topic_list($forum_id){
-  	 	return $this->forumDAO->get_topic_list($forum_id);;  	 	
+  	 public function get_topic($topic_id,$topic_name){
+  	 	return $this->forumDAO->get_topic($topic_id,$topic_name);
   	 }
   	 /*
   	  * param : $id => id du forum/topic sur lequel on se trouve actuellement 

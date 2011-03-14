@@ -18,65 +18,81 @@
   	 	  	 	
   	 	$catResult= $this->db->get_cat_list();
   	 	
-  	 	//pour toutes les catégories
-  	 	$i = 0;
-  	 	foreach($catResult as $cat){
-  	 		$catListArray[$i] = new Categorie();
-  	 		$catListArray[$i]->setCatName($cat['cat_name']);
+  	 	//pour toutes les catégories  	 	
+  	 	foreach($catResult as $key => $cat){
+  	 		$catListArray[$key] = new Categorie();
+  	 		$catListArray[$key]->setCatName($cat['cat_name']);
   	 		
   	 		//on cherche tous les forums
-  	 		$forumlist = $this->get_forum_list($cat['cat_id']);
+  	 		$forumlist = $this->get_cat($cat['cat_id']);
   	 				  	 		
-  	 		$catListArray[$i]->setForumList($forumlist);
-  	 		  	 			    		    	    	    	
-  	 		$i++;
+  	 		$catListArray[$key]->setForumList($forumlist);
+  	 		  	 			    		    	    	    	  	 		
   	 	}
   	 	  	 	  	 	
   	 	$catList = new CategorieList();
   	 	$catList->setCatList($catListArray);
   	 	return $catList;
   	 }
-  	 private function get_forum_list($cat_id){
-  	 	$forumResult = $this->db->get_forum_list($cat_id);
+  	 private function get_cat($cat_id){
+  	 	$forumResult = $this->db->get_cat($cat_id);
   	 	
   	 	$forumlist = array();
-  	 	
-  	 	$i = 0;	
-	    foreach($forumResult as $forum){
+  	 	  	 	
+	    foreach($forumResult as $key => $forum){
 	    	
 	    	$forumtmp = new forum();
     		$forumtmp->setForumId($forum['forum_id']);
     		$forumtmp->setForumName($forum['forum_name']);
     		  	 
-    		$forumlist[$i] = $forumtmp;
-    		$i++;
+    		$forumlist[$key] = $forumtmp;    		
 	    }
 	    return $forumlist;
   	 }
-  	 public function get_topic_list($forum_id){
-  	 		$topicResult = $this->db->get_topic_list($forum_id);
-  	 		
-  	 		
-  	 		$forum = new forum();
-  	 		$topiclist = array();
+  	 public function get_forum($forum_id,$forum_name){
+  	 		$topicResult = $this->db->get_forum($forum_id);
   	 		  	 		
-  	 		$i = 0;
-  	 		foreach($topicResult as $topic){  
-  	 				 		
-  	 			$topiclist[$i] = new Topic();
-				$topiclist[$i]->setTopicName($topic['topic_name']);
-				$topiclist[$i]->setTopicId($topic['topic_id']);
-				$i++;
-  	 		}
-  	 		$forumNameResult = $this->db->get_forum_name($forum_id);
-  	 		$forumName = $forumNameResult[0]['forum_name'];
-  	 		
+  	 		$forum = new forum();
   	 		$forum->setForumId($forum_id);
-    		$forum->setForumName($forumName);
-    		$forum->setTopicList($topiclist);
-    		    	
+	    	$forum->setForumName($forum_name);
+	    	
+  	 		if (!empty($topicResult)){  	 			
+	  	 		$topiclist = array();
+	  	 		  	 			  	 		
+	  	 		foreach($topicResult as $key => $topic){  
+	  	 				 		
+	  	 			$topiclist[$key] = new Topic();
+					$topiclist[$key]->setTopicName($topic['topic_name']);
+					$topiclist[$key]->setTopicId($topic['topic_id']);					
+	  	 		}  	 		
+	  	 		
+	    		$forum->setTopicList($topiclist);
+  	 		}
   	 		return $forum;
   	 	
+  	 }
+  	 public function get_topic($topic_id,$topic_name){  	 
+  	 	$postResult = $this->db->get_topic($topic_id);
+  	 	$topic = new topic();
+  	 	$topic->setTopicName($topic_name);
+		if(!empty($postResult)){	
+	  	 		  	 		  	 	
+	  	 	$postList = array();
+	  	 	
+	  	 	foreach($postResult as $key => $postDB){
+	  	 		$post = new Post();
+	  	 		
+	  	 		$post->setPostId($postDB['post_id']);
+	  	 		$post->setPoster($postDB['post_creator']);
+	  	 		$post->setPostText($postDB['post_text']);
+	  	 		
+	  	 		$postList[$key] = $post;
+	  	 	}
+	  	 	
+	  	 	$topic->setPostList($postList);  	 	
+	  	 		  	 	
+		}  	 
+  	 	return $topic; 
   	 }
   	 public function get_topic_ariane(&$ariane,$topic_id){
   	 	$result = $this->db->get_topic_path($topic_id);

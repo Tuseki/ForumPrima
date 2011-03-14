@@ -128,6 +128,10 @@
  	/**
  	 * forum request 
  	 */
+ 	 
+ 	 /*
+ 	  * function de catégorie et de forum
+ 	  */
  	 public function get_cat_list(){
  	 		if (isset($this->DBConnect)){
  			try{		 		
@@ -141,7 +145,7 @@
  		}
  		else die ("DBConnect not initialized");
  	 } 
- 	 public function get_forum_list($cat_id){
+ 	 public function get_cat($cat_id){
  	 		if (isset($this->DBConnect)){
  			try{		 		 				
  				$result = $this->DBConnect->query("SELECT forum_id, forum_name FROM forum_forum WHERE cat_id = ".$cat_id." ORDER BY forum_ordre"); 				
@@ -154,7 +158,7 @@
  		}
  		else die ("DBConnect not initialized");
  	 } 
- 	 public function get_topic_list($forum_id){
+ 	 public function get_forum($forum_id){
  		if (isset($this->DBConnect)){
  			try{		 		 				
  				$result = $this->DBConnect->query("SELECT topic_id, topic_name FROM forum_topic WHERE forum_id = ".$forum_id." ORDER BY topic_ordre"); 				
@@ -178,7 +182,29 @@
  			}
  		}
  	 }
+ 	 /*
+ 	  * function de vision de topic  	 
+ 	  */
+ 	 public function get_topic($topic_id){
+ 	 	if (isset($this->DBConnect)){
+ 			try{	
+ 				
+ 				$result = $this->DBConnect->query("SELECT post_id, post_text, post_creator " .
+ 								"FROM forum_post " . 								
+ 								"WHERE forum_post.topic_id = ".$topic_id." ".
+ 								"ORDER BY post_id "); 				
+ 				return $result->fetchAll();
+ 								 				 			 				 	
+ 			}
+ 			catch(Exception $e){
+ 				die ("select error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+ 	 }
  	 
+ 	 /*
+ 	  * function d'ariane 
+ 	  */
  	 public function get_topic_path($topic_id){
  	 	if (isset($this->DBConnect)){
  			try{		 	
@@ -207,5 +233,5 @@
  			}
  		}
  	 }
-}
+ }
 ?>

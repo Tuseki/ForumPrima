@@ -29,9 +29,9 @@
 			if( $isConnected)
 			{	
 				$forumDataTools = new ForumDataTools();					
-				$forum = $forumDataTools->get_topic_list($forum_id);								
+												
 				$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_FORUM,$forum_id);
-				
+				$forum = $forumDataTools->get_forum($forum_id,$ariane[2]['name']);
 			}	    			
 		}	
 		else $forum_id = null;		

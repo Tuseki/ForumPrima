@@ -27,34 +27,11 @@
 		if (is_numeric($topic_id)){// on s'assure que c'est bien un nombre		
 			//si l'utilisateur est connecté
 			if( $isConnected)
-			{
-				//Debugg test
-				
-				$text1 = htmlEntities("ceci est un message du topic");
-				$text2 = htmlEntities("ceci est un autremessage du topic");
-				$text3 = htmlEntities("Non mais vous arrêter de flooder bande de boulz? C'est pas possible d'avoir des gens aussi con sur un forum bordel! on se croirait sur les fofo blizzard");
-				$text4 = htmlEntities("Non mais tg toi!");
-				
-				$post_list[0] = new Post();
-				$post_list[0]->setPostId("1");
-				$post_list[0]->setPostText($text1);
-				$post_list[1] = new Post();
-				$post_list[1]->setPostId("2");
-				$post_list[1]->setPostText($text2);
-				$post_list[2] = new Post();
-				$post_list[2]->setPostId("3");
-				$post_list[2]->setPostText($text3);
-				$post_list[3] = new Post();
-				$post_list[3]->setPostId("4");
-				$post_list[3]->setPostText($text4);
-				
-				
-				$topic= new topic();
-				$topic->setTopicName("Nom du topic");
-				$topic->setPostList($post_list);
-				
-				$forumDataTools = new ForumDataTools();
+			{					
+				$forumDataTools = new ForumDataTools();				
 				$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_TOPIC,$topic_id);
+								
+				$topic = $forumDataTools->get_topic($topic_id,$ariane[3]["name"]);				
 			}
 		}
 		else $topic_id = null;
