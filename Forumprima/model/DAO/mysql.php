@@ -233,5 +233,39 @@
  			}
  		}
  	 }
+ 	 public function get_post($post_id){
+ 	 	if (isset($this->DBConnect)){
+ 			try{		 		 				
+ 				$result = $this->DBConnect->query("SELECT post_id, post_text, post_creator, topic_name " .
+ 								"FROM forum_post " .
+								"LEFT OUTER JOIN forum_topic " .
+								"ON forum_post.topic_id = forum_topic.topic_id ". 								
+								"WHERE post_id = ".$post_id); 				
+ 				return $result->fetch();
+ 								 				 			 				 	
+ 			}
+ 			catch(Exception $e){
+ 				die ("select error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+ 	 }
+ 	 /*
+ 	  * écriture de post
+ 	  */
+ 	 public function write_post($post){
+ 	 	if (isset($this->DBConnect)){
+ 			try{		 	
+ 				echo "INSERT INTO forum_post " .
+ 									   "(post_text,post_creator,topic_id) " .
+ 									   "VALUES (\"".$post->getPostText()."\" , \"".$post->getPoster()."\" , ".$post->getTopicId().")"; 	 				
+ 				$this->DBConnect->exec("INSERT INTO forum_post " .
+ 									   "(post_text,post_creator,topic_id) " .
+ 									   "VALUES (\"".$post->getPostText()."\" , \"".$post->getPoster()."\" , ".$post->getTopicId().")"); 				 				 								 				 			 				 	
+ 			}
+ 			catch(Exception $e){
+ 				die ("write post error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+ 	 } 
  }
 ?>

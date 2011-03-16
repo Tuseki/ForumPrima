@@ -10,6 +10,8 @@
 	require(RELATIVEAPPROOT.'/model/tools/ForumDataTools.php');
 	require(RELATIVEAPPROOT.'/model/tools/ConnexionTools.php');
 	
+	
+	
 	/**
 	 * init param
 	 */

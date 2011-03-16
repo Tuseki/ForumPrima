@@ -76,11 +76,12 @@ require_once(APPPATH.'/model/DAO/UserDAO.php');
 			$valided = false;
 			$this->err_tab['login'] = utf8_encode(RegisterTools::LOGIN_TOO_SHORT);
 			$this->user['login'] = '';
-		}
+		}		
 		//3 : le login est-il trop grand?
 		else if (strlen($user['login']) > 15){
 			$valided = false;
 			$this->err_tab['login'] = utf8_encode(RegisterTools::LOGIN_TOO_LONG);
+			
 			$this->user['login'] = '';
 		}
 		//3 bis : le nom de login est déjà pris?			
@@ -88,6 +89,7 @@ require_once(APPPATH.'/model/DAO/UserDAO.php');
 			$valided = false;
 			$this->err_tab['login'] = utf8_encode(RegisterTools::LOGIN_ALREADY_EXIST);			
 		}
+		
 		//4 : le password est-il vide?		
 		if ( empty($user['password'])){ 
 			$valided = false;
@@ -134,7 +136,7 @@ require_once(APPPATH.'/model/DAO/UserDAO.php');
 		 * TO-DO
 		 */	 		
 		
-		//on retourne la valeur de $valided
+		//on retourne la valeur de $valided				
 		return $valided;
     }      	   
     function activate_user($login,$code){  	

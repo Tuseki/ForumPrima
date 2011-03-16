@@ -21,6 +21,7 @@
 		if( $isConnected == false)
 		{
 		 	$err = '';
+		 	
 		 	//valide la connexion	 		 
 		 	if(isset($_POST['login']) && isset($_POST['password'])){
 				$login = htmlEntities($_POST['login']);
@@ -34,7 +35,8 @@
 		    	$err = WRONG_LOGIN;	    
 		    //	sinon 
 		    else if (isset($_POST['connexionvalided']) && $_POST['connexionvalided'] == true) 
-		    	User_Connexion::forum_user_connexion();
+		    	//si la connexion est valide, le login est forcément bon, donc on ne vérifie pas sa valeur
+		    	User_Connexion::forum_user_connexion($login);
 		 }
 	    
 	    

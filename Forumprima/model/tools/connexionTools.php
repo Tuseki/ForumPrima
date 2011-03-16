@@ -11,9 +11,11 @@ class User_Connexion{
 		else return true;
 	}
 
-	 static function forum_user_connexion(){
+	 static function forum_user_connexion($user_name){
 	 	$_SESSION['usersession'] = new ForumSession();
 		$_SESSION['usersession']->connexion();
+		$_SESSION['usersession']->set_user_name($user_name);
+		
 	 }
 	 
 	/*
@@ -33,6 +35,9 @@ class User_Connexion{
 		if(isset($_SESSION['usersession']) && $_SESSION['usersession']->isConnected()){
 			session_destroy();		
 		}	
+	 }
+	 static function get_user_name(){
+	 	return $_SESSION['usersession']->get_user_name();
 	 }
 }
   

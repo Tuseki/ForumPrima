@@ -29,14 +29,20 @@
 	if( isset($_POST['isSubmitted']) && $_POST['isSubmitted'] == "true"){
 		$registerTools = new RegisterTools();
 		//formatage des données 
-		$user['login'] = htmlentities($_POST['login']);
-		$user['password'] = htmlentities($_POST['password']);
-		$user['passwordconfirm'] = htmlentities($_POST['passwordconfirm']);
-		$user['email'] = htmlentities($_POST['email']);
+		$user['login'] = utf8_decode(htmlspecialchars($_POST['login']));
+		$user['password'] = utf8_decode(htmlspecialchars($_POST['password']));
+		$user['passwordconfirm'] = utf8_decode(htmlspecialchars($_POST['passwordconfirm']));
+		$user['email'] = utf8_decode(htmlspecialchars($_POST['email']));
+		
+		
+		
 				
 		$_POST['valided'] = $registerTools->validation($user);
 		$err_tab = $registerTools->get_err_tab();
-		$user = $registerTools->getUser();				 		
+		
+		$user = $registerTools->getUser();		
+		
+				 		
 	}			
  	//si le formulaire est validé
  		/*
@@ -44,7 +50,7 @@
  		 */
 	if(isset($_POST['valided']) && $_POST['valided']){
 		//on enregistre les data dans la base de donnée
-		$registerTools->registration($user);		
+		//$registerTools->registration($user);		
 	}
 	 
 	/**

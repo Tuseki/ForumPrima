@@ -5,14 +5,14 @@
 			 '	<h2 style="font-size:1em">'.$title.'</h2>'."\n".
   			 '</div>'."\n";
  	
- 	return utf8_encode($data); 	       
+ 	return $data; 	       
  }
  function subjectCanvas($topicName,$topic_id,$type='forum'){
  	$data  ='<div class="cadre">'."\n".
    		    '	<p style="font-size:0.9em;text-align:left;"><a href="'.$type.'.php?id='.$topic_id.'">'.$topicName.'</a></p>'."\n".
     	    '</div>'."\n";
     
-    return utf8_encode($data);
+    return $data;
  }
  function topicTitleCanvas($title){
   $data = '
@@ -20,9 +20,10 @@
             	<h2 style="font-size:1em">'.$title.'</h2>
          </div>';
          		    
-  return utf8_encode($data);
+  return $data;
  }
  function postCanvas($post,$mustShowMenu=true){
+
  	$data ='';
  	 	
  	
@@ -34,7 +35,7 @@
 									<span class = "posttitle">posté le XXXX</span>
 		                            <span style="float:right">';
 	$data .= $mustShowMenu? '<a href ="" class="topicbutton">Citer</a>
-        		             <a href ="./post.php?action=reply&id='.$post->getPostId().'" class="topicbutton">Répondre</a></span>': '';	                	               
+        		             <a href ="./post.php?action=reply&topic_id='.$post->getTopicId().'&post_id='.$post->getPostId().'" class="topicbutton">Répondre</a></span>': '';	                	               
     $data .=        		   '</p></div>
 		                        <div class="postcontent"><p class="topictext">';
     $data .= $post->getPostText();                                       
@@ -43,7 +44,7 @@
 						';
  
  	
- 	return utf8_encode($data);
+ 	return $data;
  }
 
  function cat_list_display($cat_list,$ariane){
@@ -58,7 +59,7 @@
 		}    
 		$data .= '</div>'."\n";		 		    		    		
 	}	 	
- 	return $data;
+ 	return utf8_encode($data);
  }
  function forum_display($forum,$ariane){
  	$data = '';
@@ -71,7 +72,7 @@
 		$data .= subjectCanvas($topic->getTopicName(),$topic->getTopicId(),'viewTopic');	
 	}    
 		$data .= '</div>'."\n";		 		    		    			 
- 	return $data;
+ 	return utf8_encode($data);
  }
  function topic_display($topic,$ariane){
  	$data = '';
@@ -88,21 +89,22 @@
             '</div>'."\n".
             '<div style="clear:both"/>'."\n";	
  	
- 	return $data;
+ 	return utf8_encode($data);
  }
- function post_display($post){
- 	$data = '';
- 	
+ function post_display($post,$action){
+ 	 
+ 	$data = ''; 	
  	$data  .=  
  			topicTitleCanvas($post->getTopicName())."\n". 			
  			'		<div style="margin-left:15px">'."\n"; 			
  	$data .= postCanvas($post,false);	
  	$data .='<div style="clear:both"/>                      	
-                   	<FORM action="" method="post">                        
+                   	<FORM action="posting.php?action='.$action.'" method="post">                        
                        	<div style="padding-top:50px;padding-bottom:25px">
-                       		<textarea style="margin:auto;width:600px;height:300px;overflow:hidden;border:#900 solid 3px"></textarea>   
+                       		<textarea name="text" style="margin:auto;width:600px;height:300px;overflow:hidden;border:#900 solid 3px"></textarea>   
                                <div style="height:25px"></div>      
                                <input type="submit" value="Envoyer"/>
+                               <input type="hidden" name="topic_id" value="'.$post->getTopicId().'"/>                               
                			</div>
                     </FORM>
              </div>';
@@ -119,7 +121,7 @@
  			</div>
  			<div style="clear:both"/>			
  			';
- 	return utf8_encode($data);
+ 	return $data;
  }
  function ariane($arianeData){
  	$data = '';
@@ -130,7 +132,7 @@
  	}
  	$data .='</div>
  			<div style="clear:both"/>';	
- 	return utf8_encode($data);
+ 	return $data;
  }
 
 ?>

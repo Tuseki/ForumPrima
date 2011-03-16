@@ -43,5 +43,31 @@ class ForumDataTools{
 		
 		return $ariane ;
   	 }
+  	 public function get_post($post_id){
+  	 	return $this->forumDAO->get_post($post_id);
+  	 }
+  	 
+  	 /*
+  	  * écriture
+  	  */
+  	  public function write_post($topic_id,$post_creator,$post_text){
+  	  	
+  	  	//vérification et formatage du texte du post 
+  	  	/*
+  	  	 * TO-DO
+  	  	 */ 
+  	    $post_text = str_replace("\n","<br>",$post_text);
+  	  	  	  	
+  	  	//sauvegarde des données
+  	  	$post = new post();
+  	  	$post->setTopicId($topic_id);
+  	  	$post->setPoster($post_creator);
+  	  	$post->setPostText($post_text);
+  	  	//$post->setPostDate(date('H\hi \l\e d M y',time()));
+  	  	
+  	  	$this->forumDAO->write_post($post);
+  	  	  	  	
+  	  	
+  	  }
 }
 ?>

@@ -75,6 +75,7 @@
   	 	$postResult = $this->db->get_topic($topic_id);
   	 	$topic = new topic();
   	 	$topic->setTopicName($topic_name);
+  	 	$topic->setTopicId($topic_id);
 		if(!empty($postResult)){	
 	  	 		  	 		  	 	
 	  	 	$postList = array();
@@ -85,6 +86,7 @@
 	  	 		$post->setPostId($postDB['post_id']);
 	  	 		$post->setPoster($postDB['post_creator']);
 	  	 		$post->setPostText($postDB['post_text']);
+	  	 		$post->setTopicId($topic_id);
 	  	 		
 	  	 		$postList[$key] = $post;
 	  	 	}
@@ -113,5 +115,23 @@
 		$ariane[2]['name']= $result['forum_name'];
 		$ariane[2]['link']= WEBADRESSROOT."forum.php?id=".$result['forum_id'];;
   	 }
+  	 public function get_post($post_id){
+  	 	 $result = $this->db->get_post($post_id);
+  	 	 $post = new Post();
+  	 	 $post->setPoster($result['post_creator']);
+  	 	 $post->setPostText($result['post_text']);
+  	 	 $post->setPostId($result['post_id']);
+  	 	 $post->setTopicName(utf8_encode($result['topic_name']));
+  	 	 
+  	 	 
+  	 	 return $post;
+  	 } 
+  	 /*
+  	  * écriture 
+  	  */  	 
+  	 public function write_post($post){
+  	 	$this->db->write_post($post);
+  	 } 
+  	 
   }
 ?>
