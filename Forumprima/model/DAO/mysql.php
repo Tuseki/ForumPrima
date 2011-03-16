@@ -161,7 +161,7 @@
  	 public function get_forum($forum_id){
  		if (isset($this->DBConnect)){
  			try{		 		 				
- 				$result = $this->DBConnect->query("SELECT topic_id, topic_name FROM forum_topic WHERE forum_id = ".$forum_id." ORDER BY topic_ordre"); 				
+ 				$result = $this->DBConnect->query("SELECT topic_id, topic_name FROM forum_topic WHERE forum_id = ".$forum_id." ORDER BY topic_id"); 				
  				return $result->fetchAll();
  								 				 			 				 	
  			}
@@ -173,7 +173,9 @@
  	 public function get_forum_name($forum_id){
  	 	if (isset($this->DBConnect)){
  			try{		 		 				
- 				$result = $this->DBConnect->query("SELECT forum_name FROM forum_forum WHERE forum_id = ".$forum_id); 				
+ 				$result = $this->DBConnect->query("SELECT forum_name " .
+ 												  "FROM forum_forum " .
+ 												  "WHERE forum_id = ".$forum_id); 				
  				return $result->fetchAll();
  								 				 			 				 	
  			}
@@ -252,20 +254,32 @@
  	 /*
  	  * écriture de post
  	  */
- 	 public function write_post($post){
+ 	 public function write_post($post_text,$post_creator,$topic_id){
  	 	if (isset($this->DBConnect)){
- 			try{		 	
- 				echo "INSERT INTO forum_post " .
- 									   "(post_text,post_creator,topic_id) " .
- 									   "VALUES (\"".$post->getPostText()."\" , \"".$post->getPoster()."\" , ".$post->getTopicId().")"; 	 				
+ 			try{		 	 				 	 			
  				$this->DBConnect->exec("INSERT INTO forum_post " .
  									   "(post_text,post_creator,topic_id) " .
- 									   "VALUES (\"".$post->getPostText()."\" , \"".$post->getPoster()."\" , ".$post->getTopicId().")"); 				 				 								 				 			 				 	
+ 									   "VALUES (\"".$post_text."\" , \"".$post_creator."\" , ".$topic_id.")"); 				 				 								 				 			 				 	
  			}
  			catch(Exception $e){
  				die ("write post error nbr ".$e->getCode()."\n message : ".$e->getMessage());
  			}
  		}
  	 } 
+ 	 public function write_topic($topic_name,$forum_id,$post_text,$topic_creator){
+ 	 	if (isset($this->DBConnect)){ 	 		
+ 			try{		 	 					 				
+ 				$this->DBConnect->exec("INSERT INTO forum_topic " .
+ 									   "(forum_id,topic_name,topic_creator) " .
+ 									   "VALUES (\"".$forum_id."\" , \"".$topic_name."\" , \"".$topic_creator."\")"); 				 				 								 				 			 				 	
+ 				$topic_id = $this->DBConnect->lastInsertId(); 				
+ 				$this->write_post($post_text,$topic_creator,$topic_id);
+ 				return $topic_id;
+ 			}
+ 			catch(Exception $e){
+ 				die ("write topic error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+ 	 }
  }
 ?>

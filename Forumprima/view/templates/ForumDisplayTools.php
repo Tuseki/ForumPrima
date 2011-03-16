@@ -65,7 +65,7 @@
  	$data = '';
 	
 	$data  .= '<div>'."\n". 
-			  forum_menu()."\n".
+			  forum_menu($forum->getForumId())."\n".
 			  ariane($ariane)."\n".
 	          titleCanvas($forum->getForumName());      		     
 	foreach($forum->getTopicList() AS $topic_index => $topic){		    		
@@ -91,33 +91,39 @@
  	
  	return utf8_encode($data);
  }
- function post_display($post,$action){
+ /*
+  * PARAM : 
+  *  $post = le post a afficher en cas de reply, sinon, on se fou de la valeur du param
+  *  $action = "new" "reply" ou "edit"
+  *  $id = id qu'on transmet en hidden, peut-être celui d'un topic ou d'un forum 
+  */
+ function post_display($post,$action,$id){
  	 
  	$data = ''; 	
- 	$data  .=  
- 			topicTitleCanvas($post->getTopicName())."\n". 			
- 			'		<div style="margin-left:15px">'."\n"; 			
- 	$data .= postCanvas($post,false);	
- 	$data .='<div style="clear:both"/>                      	
-                   	<FORM action="posting.php?action='.$action.'" method="post">                        
-                       	<div style="padding-top:50px;padding-bottom:25px">
-                       		<textarea name="text" style="margin:auto;width:600px;height:300px;overflow:hidden;border:#900 solid 3px"></textarea>   
-                               <div style="height:25px"></div>      
-                               <input type="submit" value="Envoyer"/>
-                               <input type="hidden" name="topic_id" value="'.$post->getTopicId().'"/>                               
+ 	 
+ 	$data .= $action != "new" ? topicTitleCanvas($post->getTopicName())."\n" : ''; 			
+ 	$data .='<div style="margin-left:15px">'."\n"; 			
+ 	$data .= $action == "reply" ? postCanvas($post,false) : '';	
+ 	$data .='		<div style="clear:both"/>                      	
+                   	<FORM action="posting.php?action='.$action.'" method="post">';                        
+    $data .= $action == "new" ? '<input type="text" name="topic_name"/>' : '';
+    $data .='         	<div style="padding-top:50px;padding-bottom:25px">
+                       		 <textarea name="text" style="margin:auto;width:600px;height:300px;overflow:hidden;border:#900 solid 3px"></textarea>   
+                             <div style="height:25px"></div>      
+                             <input type="submit" value="Envoyer"/> 
+    						 <input type="hidden" name="id" value="'.$id.'"/>                               
                			</div>
                     </FORM>
              </div>';
  	return utf8_encode($data);
  	
  }
- function forum_menu(){
+ function forum_menu($forum_id = null){
  	$data = '';
  	
  	$data =' 
- 			<div style="margin-left:15px"> 				
- 				<div class="button">Nouveau</div>
- 				<div class="button">Répondre</div>
+ 			<div style="margin-left:15px"> 				 				
+ 				<a href="post.php?action=new&id='.$forum_id.'"><div class="button">Nouveau</div></a>
  			</div>
  			<div style="clear:both"/>			
  			';

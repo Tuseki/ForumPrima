@@ -60,6 +60,17 @@
 			 
 	return utf8_encode($data);
  }
+ function m_topic_created($topic_id){
+ 	$data = 
+ 		'<div>
+			<br>
+			Votre sujet a été crée
+			<br>
+			Cliquez <a href="./viewTopic.php?id='.$topic_id.'">ici</a> pour revenir sur le sujet				
+		</div>';
+			 
+	return utf8_encode($data);
+ }
 
   function m_user_deconnexion(){
  	$data = 

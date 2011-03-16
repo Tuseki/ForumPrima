@@ -69,5 +69,17 @@ class ForumDataTools{
   	  	  	  	
   	  	
   	  }
+  	  public function write_topic($topic_name,$forum_id,$post_text,$topic_creator){
+  	  	$post = new Post();
+  	  	$post->setPoster($topic_creator);
+  	  	$post->setPostText($post_text);  
+  	  		  	
+  	  	$topic = new topic();  	  	
+  	  	$topic->setTopicName($topic_name);
+  	  	$topic->setForumId($forum_id);  	  	
+  	  	$topic->setTopicOriginalPoster($topic_creator);
+  	  	
+  	  	return $this->forumDAO->write_topic($topic,$post_text);  	  	
+  	  }
 }
 ?>

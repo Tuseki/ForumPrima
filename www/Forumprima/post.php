@@ -55,10 +55,10 @@
 					//si l'action est new
 					if($action == "new")
 					{
-						//debugg test
-						$forum_id = 1;
 						
-						
+						if(isset($_GET['id']) && is_numeric($_GET['id'])){
+							$forum_id = htmlEntities($_GET['id']);
+						}														
 					}
 					//si l'action est edit
 					if($action == "edit")
@@ -86,9 +86,9 @@
 			{
 				//si l'objet post a été initalisé
 				if($post!= null){
-  				$css_list[0] = "style_topic.css";
-				$display =  forumHeader(true,$css_list)."\n".															
-			  		post_display($post,$action)."\n".
+  					$css_list[0] = "style_topic.css";
+					$display =  forumHeader(true,$css_list)."\n".															
+			  		post_display($post,$action,$post->getTopicId())."\n".
 			  		forumFooter()."\n";
 				}
 				//sinon, on a rien à faire la
@@ -101,7 +101,20 @@
 			//si l'action est new
 			else if($action == "new")
 			{
-			
+				//si on recoit bien un forum_id
+				if($forum_id != null){
+					$css_list[0] = "style_topic.css";
+					$display =  forumHeader(true,$css_list)."\n".															
+			  		post_display(null,$action,$forum_id)."\n".
+			  		forumFooter()."\n";
+				}
+				//sinon, on a rien à faire la
+				else{
+					
+					$display =  forumHeader()."\n".						
+			  		m_illegal_action()."\n".
+			  		forumFooter()."\n";		
+				}
 			}
 			//si l'action est edit
 			else if($action == "edit")

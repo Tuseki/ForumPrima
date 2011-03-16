@@ -18,18 +18,32 @@
  	
  	$action = null;
  	$topic_id = null;
+ 	$forum_id = null;
 	$isConnected = User_Connexion::is_already_Connected();
-	if (isset($_SESSION['action']) && isset($_SESSION['topic_id'])){	
-		$action = $_SESSION['action'];
-		$topic_id = $_SESSION['topic_id'];		
-		unset($_SESSION['action']);
-		unset($_SESSION['topic_id']);				
-	}	
-		
 	
 	/**
-	 * Pas de controller car il ne s'agit ici que d'envoyer un message 
+	 * Controller 
 	 */
+	 // on vérifie qu'on est biee la suite à un post'
+	if (isset($_SESSION['action'])){
+		
+		$action = $_SESSION['action'];
+		if(is_string($action)){
+			//si c'est une réponse de post
+			if($action == "reply"){
+				$topic_id = $_SESSION['topic_id'];					
+				unset($_SESSION['topic_id']);	
+			}
+			//si c'est la création d'un nouveau topic
+			if($action == "new"){
+				$forum_id = $_SESSION['forum_id'];
+				$topic_id = $_SESSION['topic_id'];
+				unset($_SESSION['forum_id']);						
+				unset($_SESSION['topic_id']);
+			}	
+			unset($_SESSION['action']);
+		} else $action = null;						
+	}	
 	
 	
 	/**
@@ -60,7 +74,21 @@
 		//si l'action est new
 		else if($action == "new")
 		{
-		
+			//si on recoit bien un forum_id en post
+			if($forum_id != null)
+			{
+				$css_list[0] = "style_topic.css";
+				$display =  forumHeader(true,$css_list)."\n".															
+		  		m_topic_created($topic_id)."\n".
+		  		
+		  		forumFooter()."\n";
+			}
+			//sinon, on a rien à faire la
+			else {				
+				$display =  forumHeader()."\n".						
+		  		m_illegal_action()."\n".
+		  		forumFooter()."\n";
+			}
 		}
 		//si l'action est edit
 		else if($action == "edit")

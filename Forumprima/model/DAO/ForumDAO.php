@@ -130,8 +130,18 @@
   	  * écriture 
   	  */  	 
   	 public function write_post($post){
-  	 	$this->db->write_post($post);
+  	 	$post_text = $post->getPostText();
+  	 	$post_creator = $post->getPoster();
+  	 	$topic_id = $post->getTopicId();
+  	 	$this->db->write_post($post_text,$post_creator,$topic_id);
   	 } 
+  	 public function write_topic($topic,$post_text){
+  	 	$topic_name = $topic->getTopicName();
+  	 	$forum_id = $topic->getForumId();
+  	 	$topic_creator = $topic->getTopicOriginalPoster();
+  	 	  	 	  	 	
+  	 	return $this->db->write_topic($topic_name,$forum_id,$post_text,$topic_creator);
+  	 }
   	 
   }
 ?>
