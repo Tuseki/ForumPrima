@@ -71,6 +71,17 @@
 			 
 	return utf8_encode($data);
  }
+ function m_post_edited($topic_id){
+ 	$data = 
+ 		'<div>
+			<br>
+			Votre réponse a bien été modifiée
+			<br>
+			Cliquez <a href="./viewTopic.php?id='.$topic_id.'">ici</a> pour revenir sur le sujet				
+		</div>';
+			 
+	return utf8_encode($data);
+ }
 
   function m_user_deconnexion(){
  	$data = 

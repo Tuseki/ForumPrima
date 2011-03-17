@@ -45,19 +45,31 @@ class ForumDataTools{
   	 }
   	 public function get_post($post_id){
   	 	return $this->forumDAO->get_post($post_id);
+  	 } 
+  	 public function get_post_foredit($post_id){
+  	 	$post = $this->forumDAO->get_post($post_id);
+  	 	$post->setPostText(str_replace("<br>","\n",$post->getPostText()));
+  	 	return $post;
   	 }
-  	 
+  	 /*
+  	  * encodage du texte pour la db
+  	  */
+  	  public function encode($post_text){
+  	  	$text = '';
+  	  	/*
+  	  	 * TO-DO
+  	  	 */ 
+  	    $text = str_replace("\n","<br>",$post_text);
+  	    return $text;
+  	  }
   	 /*
   	  * écriture
   	  */
   	  public function write_post($topic_id,$post_creator,$post_text){
   	  	
   	  	//vérification et formatage du texte du post 
-  	  	/*
-  	  	 * TO-DO
-  	  	 */ 
-  	    $post_text = str_replace("\n","<br>",$post_text);
-  	  	  	  	
+  	  	$post_text = $this->encode($post_text);
+  	  	  	  	  	  
   	  	//sauvegarde des données
   	  	$post = new post();
   	  	$post->setTopicId($topic_id);
@@ -80,6 +92,13 @@ class ForumDataTools{
   	  	$topic->setTopicOriginalPoster($topic_creator);
   	  	
   	  	return $this->forumDAO->write_topic($topic,$post_text);  	  	
+  	  }
+  	  public function update_post($post_id,$post_text){
+  	  	
+  	  	//vérification et formatage du texte du post 
+  	  	$post_text = $this->encode($post_text);
+  	  	
+  	  	$this->forumDAO->update_post($post_id,$post_text);
   	  }
 }
 ?>

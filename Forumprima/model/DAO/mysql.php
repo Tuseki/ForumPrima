@@ -281,5 +281,20 @@
  			}
  		}
  	 }
+ 	 public function update_post($post_id,$post_text){
+  	  	if (isset($this->DBConnect)){ 	 		
+ 			try{		 	 					 				
+ 				$this->DBConnect->exec("UPDATE forum_post " .
+ 									   "SET post_text = \"".$post_text."\" " . 									   
+ 									   "WHERE post_id = ".$post_id); 				 				 								 				 			 				 	
+ 				$topic_id = $this->DBConnect->lastInsertId(); 				
+ 				$this->write_post($post_text,$topic_creator,$topic_id);
+ 				return $topic_id;
+ 			}
+ 			catch(Exception $e){
+ 				die ("update post error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+  	  }
  }
 ?>

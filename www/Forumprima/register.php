@@ -33,9 +33,6 @@
 		$user['password'] = utf8_decode(htmlspecialchars($_POST['password']));
 		$user['passwordconfirm'] = utf8_decode(htmlspecialchars($_POST['passwordconfirm']));
 		$user['email'] = utf8_decode(htmlspecialchars($_POST['email']));
-		
-		
-		
 				
 		$_POST['valided'] = $registerTools->validation($user);
 		$err_tab = $registerTools->get_err_tab();
@@ -50,7 +47,7 @@
  		 */
 	if(isset($_POST['valided']) && $_POST['valided']){
 		//on enregistre les data dans la base de donnée
-		//$registerTools->registration($user);		
+		$registerTools->registration($user);		
 	}
 	 
 	/**

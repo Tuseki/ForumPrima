@@ -33,7 +33,7 @@
 					//si l'action est reply
 					if($action == "reply")
 					{	//on vérifie qu'on arrive sur cette page parce qu'il y a eu un "post"
-						if(isset($_POST['id']) && isset($_POST['id'])){
+						if(isset($_POST['id'])){
 							$post_text = utf8_decode(htmlspecialchars($_POST['text']));
 							
 							$topic_id = $_POST['id'];						
@@ -68,7 +68,21 @@
 					//si l'action est edit
 					if($action == "edit")
 					{
-						
+						//on vérifie qu'on arrive sur cette page parce qu'il y a eu un "post"
+						if(isset($_POST['id'])){
+							$post_text = utf8_decode(htmlspecialchars($_POST['text']));
+								
+							$post_id = $_POST['id'];						
+							$topic_id = $_POST['topic_id'];
+							$post_creator = User_Connexion::get_user_name();
+																									
+							$forumDataTools = new ForumDataTools();
+							$forumDataTools->update_post($post_id,$post_text);
+							
+							
+							$_SESSION['topic_id'] = $topic_id;
+							$_SESSION['action'] = $action;
+						}
 					}	
 				}		
 			}

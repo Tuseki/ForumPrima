@@ -142,6 +142,9 @@
   	 	  	 	  	 	
   	 	return $this->db->write_topic($topic_name,$forum_id,$post_text,$topic_creator);
   	 }
+  	 public function update_post($post_id,$post_text){
+  	  	$this->db->update_post($post_id,$post_text);
+  	  }
   	 
   }
 ?>

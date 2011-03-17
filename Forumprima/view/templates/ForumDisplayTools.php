@@ -25,8 +25,6 @@
  function postCanvas($post,$mustShowMenu=true){
 
  	$data ='';
- 	 	
- 	
  	$data .=			 '   <div><div class="avatar" >'.
                     			$post->getPoster().
 						    '</div>
@@ -34,8 +32,10 @@
                     		 	<div class="postmenu"><p>
 									<span class = "posttitle">posté le XXXX</span>
 		                            <span style="float:right">';
-	$data .= $mustShowMenu? '<a href ="" class="topicbutton">Citer</a>
-        		             <a href ="./post.php?action=reply&topic_id='.$post->getTopicId().'&post_id='.$post->getPostId().'" class="topicbutton">Répondre</a></span>': '';	                	               
+	if($mustShowMenu){		
+		$data .= User_Connexion::get_user_name() == $post->getPoster() ?'<a href ="./post.php?action=edit&topic_id='.$post->getTopicId().'&post_id='.$post->getPostId().'" class="topicbutton">Editer</a>' : '';
+		$data .= '<a href ="./post.php?action=reply&topic_id='.$post->getTopicId().'&post_id='.$post->getPostId().'" class="topicbutton">Répondre</a></span>';
+	}	                            		                	              
     $data .=        		   '</p></div>
 		                        <div class="postcontent"><p class="topictext">';
     $data .= $post->getPostText();                                       
@@ -95,26 +95,31 @@
   * PARAM : 
   *  $post = le post a afficher en cas de reply, sinon, on se fou de la valeur du param
   *  $action = "new" "reply" ou "edit"
-  *  $id = id qu'on transmet en hidden, peut-être celui d'un topic ou d'un forum 
+  *  $id = id qu'on transmet en hidden, peut-être celui d'un topic (si reply) ou d'un forum (si new) ou d'un post (si un edit) 
   */
- function post_display($post,$action,$id){
- 	 
+ function post_display($post,$action,$ariane,$id){	
+ 	
  	$data = ''; 	
- 	 
+ 	$data .= ariane($ariane)."\n"; 
  	$data .= $action != "new" ? topicTitleCanvas($post->getTopicName())."\n" : ''; 			
- 	$data .='<div style="margin-left:15px">'."\n"; 			
+ 	$data .='<div style="margin-left:15px">'."\n"; 			 	
  	$data .= $action == "reply" ? postCanvas($post,false) : '';	
  	$data .='		<div style="clear:both"/>                      	
-                   	<FORM action="posting.php?action='.$action.'" method="post">';                        
-    $data .= $action == "new" ? '<input type="text" name="topic_name"/>' : '';
-    $data .='         	<div style="padding-top:50px;padding-bottom:25px">
-                       		 <textarea name="text" style="margin:auto;width:600px;height:300px;overflow:hidden;border:#900 solid 3px"></textarea>   
+                   	<FORM action="posting.php?action='.$action.'" method="post">';                            
+    $data .='         	<div align="center" style="padding-top:50px;padding-bottom:25px">' .
+    				   '  	 <div  style="width:606px;">';
+    $data .= $action == "new" ? '<div style="float:left;"><div><p style="float:left"> Titre du sujet  :  <input style="border:#900 solid 3px;width:350px" type="text" name="topic_name"/></p></div>' .
+    		'					<div style="clear:both;"></div><div style="height:25px"></div>' : '';
+	$data .='         		 	<textarea name="text" style="margin:auto;width:600px;height:300px;overflow:hidden;border:#900 solid 3px" >'.($action=="edit"?$post->getPostText():'').'</textarea>' .
+			'				</div>   
                              <div style="height:25px"></div>      
                              <input type="submit" value="Envoyer"/> 
-    						 <input type="hidden" name="id" value="'.$id.'"/>                               
-               			</div>
+    						 <input type="hidden" name="id" value="'.$id.'"/>';                               
+	$data .= $action== "edit"? '<input type="hidden" name="topic_id" value="'.$post->getTopicId().'"/>':'';
+	$data .='  			</div>
                     </FORM>
              </div>';
+ 	
  	return utf8_encode($data);
  	
  }

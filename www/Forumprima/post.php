@@ -31,7 +31,7 @@
 			if(is_string($action)){
 				//si l'utilisateur est connecté
 				if( $isConnected)
-				{
+				{					
 					//si l'action est reply
 					if($action == "reply")
 					{	
@@ -40,30 +40,42 @@
 						if(isset($post_id) && is_numeric($post_id)){
 							if(isset($topic_id) && is_numeric($topic_id)){
 								$forumDataTools = new ForumDataTools();
-								$post = $forumDataTools->get_post($post_id);																
-																		
+								$post = $forumDataTools->get_post($post_id);																																								
+								$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_TOPIC,$topic_id);								
 								//data pour l'affichage du post auquel l'utilisateur répond
 								$post->setPostId($post->getPostId());
 								$post->setTopicId($topic_id);
 								$post->setPostText($post->getPostText());
-								$post->setTopicName($post->getTopicName());
-								
-								
+								$post->setTopicName($post->getTopicName());		
 							}
 						}				
 					}
 					//si l'action est new
 					if($action == "new")
-					{
-						
+					{						
 						if(isset($_GET['id']) && is_numeric($_GET['id'])){
 							$forum_id = htmlEntities($_GET['id']);
+							$forumDataTools = new ForumDataTools();
+							$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_FORUM,$forum_id);
 						}														
 					}
 					//si l'action est edit
 					if($action == "edit")
 					{
-						
+						$post_id = htmlEntities($_GET['post_id']);
+						$topic_id = htmlEntities($_GET['topic_id']);
+						if(isset($post_id) && is_numeric($post_id)){
+							if(isset($topic_id) && is_numeric($topic_id)){
+								$forumDataTools = new ForumDataTools();
+								$post = $forumDataTools->get_post_foredit($post_id);																																								
+								$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_TOPIC,$topic_id);								
+								//data pour le post que l'utilisateur edit
+								$post->setPostId($post->getPostId());
+								$post->setTopicId($topic_id);
+								$post->setPostText($post->getPostText());
+								$post->setTopicName($post->getTopicName());								
+							}
+						}	
 					}	
 				}		
 			}
@@ -88,7 +100,7 @@
 				if($post!= null){
   					$css_list[0] = "style_topic.css";
 					$display =  forumHeader(true,$css_list)."\n".															
-			  		post_display($post,$action,$post->getTopicId())."\n".
+			  		post_display($post,$action,$ariane,$post->getTopicId())."\n".
 			  		forumFooter()."\n";
 				}
 				//sinon, on a rien à faire la
@@ -105,7 +117,7 @@
 				if($forum_id != null){
 					$css_list[0] = "style_topic.css";
 					$display =  forumHeader(true,$css_list)."\n".															
-			  		post_display(null,$action,$forum_id)."\n".
+			  		post_display(null,$action,$ariane,$forum_id)."\n".
 			  		forumFooter()."\n";
 				}
 				//sinon, on a rien à faire la
@@ -119,7 +131,10 @@
 			//si l'action est edit
 			else if($action == "edit")
 			{
-				
+				$css_list[0] = "style_topic.css";
+				$display =  forumHeader(true,$css_list)."\n".															
+			  	post_display($post,$action,$ariane,$post->getPostId())."\n".
+			  	forumFooter()."\n";
 			}	
 			else {
 				$display =  forumHeader()."\n".						
