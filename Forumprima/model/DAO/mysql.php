@@ -296,5 +296,16 @@
  			}
  		}
   	  }
+  	  public function delete_post($post_id){
+  	  	if (isset($this->DBConnect)){ 	 		
+ 			try{		 	 					 				
+ 				$this->DBConnect->exec("DELETE FROM forum_post " . 									    									  
+ 									   "WHERE post_id = ".$post_id); 				 				 								 				 			 				 	 				 				 			 				
+ 			}
+ 			catch(Exception $e){
+ 				die ("delete post error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+  	  }
  }
 ?>

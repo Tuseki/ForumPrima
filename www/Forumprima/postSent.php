@@ -46,6 +46,10 @@
 				$topic_id = $_SESSION['topic_id'];								
 				unset($_SESSION['topic_id']);	
 			}
+			if($action == "delete"){
+				$topic_id = $_SESSION['topic_id'];								
+				unset($_SESSION['topic_id']);	
+			}
 			unset($_SESSION['action']);
 		} else $action = null;						
 	}	
@@ -104,6 +108,23 @@
 				$css_list[0] = "style_topic.css";
 				$display =  forumHeader(true,$css_list)."\n".															
 		  		m_post_edited($topic_id)."\n".		  		
+		  		forumFooter()."\n";
+			}
+			//sinon, on a rien à faire la
+			else {				
+				$display =  forumHeader()."\n".						
+		  		m_illegal_action()."\n".
+		  		forumFooter()."\n";
+			}
+		}	
+		else if($action == "delete")
+		{
+			//si on recoit bien un post_id en post
+			if($topic_id != null)
+			{
+				$css_list[0] = "style_topic.css";
+				$display =  forumHeader(true,$css_list)."\n".															
+		  		m_post_deleted($topic_id)."\n".		  		
 		  		forumFooter()."\n";
 			}
 			//sinon, on a rien à faire la

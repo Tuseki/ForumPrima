@@ -33,6 +33,7 @@
 									<span class = "posttitle">posté le XXXX</span>
 		                            <span style="float:right">';
 	if($mustShowMenu){		
+		$data .= User_Connexion::get_user_name() == $post->getPoster() && !$post->isOriginalPost() ?'<a href ="./post.php?action=delete&topic_id='.$post->getTopicId().'&post_id='.$post->getPostId().'" class="topicbutton">Supprimer</a>' : '';
 		$data .= User_Connexion::get_user_name() == $post->getPoster() ?'<a href ="./post.php?action=edit&topic_id='.$post->getTopicId().'&post_id='.$post->getPostId().'" class="topicbutton">Editer</a>' : '';
 		$data .= '<a href ="./post.php?action=reply&topic_id='.$post->getTopicId().'&post_id='.$post->getPostId().'" class="topicbutton">Répondre</a></span>';
 	}	                            		                	              
@@ -77,7 +78,7 @@
  function topic_display($topic,$ariane){
  	$data = '';
  	
- 	$data  .= '<div>'."\n". 
+ 	$data  .= '<div>'."\n".  			
  			ariane($ariane)."\n".
  			topicTitleCanvas($topic->getTopicName())."\n". 			
  			'		<div style="margin-left:15px">'."\n";
@@ -101,7 +102,7 @@
  	
  	$data = ''; 	
  	$data .= ariane($ariane)."\n"; 
- 	$data .= $action != "new" ? topicTitleCanvas($post->getTopicName())."\n" : ''; 			
+ 	$data .= $action != "new"  ? topicTitleCanvas($post->getTopicName())."\n" : ''; 			
  	$data .='<div style="margin-left:15px">'."\n"; 			 	
  	$data .= $action == "reply" ? postCanvas($post,false) : '';	
  	$data .='		<div style="clear:both"/>                      	
@@ -123,6 +124,32 @@
  	return utf8_encode($data);
  	
  }
+ 
+ function delete_post_display($post,$action,$ariane){
+ 	$data = ''; 	
+ 	$data .= ariane($ariane)."\n"; 
+ 	$data .= topicTitleCanvas($post->getTopicName())."\n"; 			
+ 	$data .= '<div style="margin-left:15px">'."\n"; 			 	
+ 	$data .= postCanvas($post,false) ;	
+ 	$data .='		<div style="clear:both"/>';                            
+    $data .='         	<div align="center" style="padding-top:50px;padding-bottom:25px">                               
+                             <p>Etes-vous sur de vouloir supprimer ce message ?</p>
+                             <div style="height:5px"></div> 		  
+    						 <FORM style="display:inline" action="posting.php?action='.$action.'" method="post">
+    		                 <input type="submit" value="oui"/>
+                             
+                             <input type="hidden" name= "id" value="'.$post->getPostId().'"/> 
+                             <input type="hidden" name= "topic_id" value="'.$post->getTopicId().'"/>
+							 </FORM>
+							 <FORM style="display:inline" action="viewTopic.php?id='.$post->getTopicId().'" method="post">
+							 	<input type="submit" value="non"/>
+							 </FORM>';
+	$data .='			</div>		 		
+		             </div>';
+             
+    return utf8_encode($data);    
+ }
+ 
  function forum_menu($forum_id = null){
  	$data = '';
  	
@@ -134,6 +161,7 @@
  			';
  	return $data;
  }
+  
  function ariane($arianeData){
  	$data = '';
  	$data ='<br><div style="margin-left:15px;float:left">'; 		 			   

@@ -78,7 +78,19 @@
 																									
 							$forumDataTools = new ForumDataTools();
 							$forumDataTools->update_post($post_id,$post_text);
+														
+							$_SESSION['topic_id'] = $topic_id;
+							$_SESSION['action'] = $action;
+						}
+					}
+					if($action == "delete"){
+						//on vérifie qu'on arrive sur cette page parce qu'il y a eu un "post"
+						if(isset($_POST['id'])){
+							$post_id = htmlentities($_POST['id']);
+							$topic_id = htmlentities($_POST['topic_id']);
 							
+							$forumDataTools = new ForumDataTools();
+							$forumDataTools->delete_post($post_id);
 							
 							$_SESSION['topic_id'] = $topic_id;
 							$_SESSION['action'] = $action;

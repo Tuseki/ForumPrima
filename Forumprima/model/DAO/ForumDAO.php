@@ -73,6 +73,7 @@
   	 }
   	 public function get_topic($topic_id,$topic_name){  	 
   	 	$postResult = $this->db->get_topic($topic_id);
+  	 	
   	 	$topic = new topic();
   	 	$topic->setTopicName($topic_name);
   	 	$topic->setTopicId($topic_id);
@@ -92,8 +93,9 @@
 	  	 	}
 	  	 	
 	  	 	$topic->setPostList($postList);  	 	
-	  	 		  	 	
-		}  	 
+		}		  	
+		  		
+  	 	  	 
   	 	return $topic; 
   	 }
   	 public function get_topic_ariane(&$ariane,$topic_id){
@@ -123,6 +125,9 @@
   	 	 $post->setPostId($result['post_id']);
   	 	 $post->setTopicName(utf8_encode($result['topic_name']));
   	 	 
+  	 	 if($result == false){
+  	 	 	$post = null;
+  	 	 }  	 	 
   	 	 
   	 	 return $post;
   	 } 
@@ -145,6 +150,10 @@
   	 public function update_post($post_id,$post_text){
   	  	$this->db->update_post($post_id,$post_text);
   	  }
+  	   public function delete_post($post_id){
+  	  	$this->db->delete_post($post_id);
+  	  }
+  	 
   	 
   }
 ?>

@@ -50,14 +50,26 @@
 	return  utf8_encode($data);
  }
  function m_post_sent($topic_id){
- 		$data = 
+	$data = 
+	'<div>
+		<br>
+		Votre réponse a été enregistrée
+		<br>
+		Cliquez <a href="./viewTopic.php?id='.$topic_id.'">ici</a> pour revenir sur le sujet				
+	</div>';
+			 
+	return utf8_encode($data);
+ }
+  
+ function m_post_deleted($topic_id){
+ 	$data = 
  		'<div>
 			<br>
-			Votre réponse a été enregistrée
+			Votre message a été supprimé
 			<br>
 			Cliquez <a href="./viewTopic.php?id='.$topic_id.'">ici</a> pour revenir sur le sujet				
 		</div>';
-			 
+		
 	return utf8_encode($data);
  }
  function m_topic_created($topic_id){
@@ -105,5 +117,6 @@
 			 
 	return utf8_encode($data);
  }
+ 
  
 ?>

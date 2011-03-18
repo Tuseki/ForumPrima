@@ -35,20 +35,21 @@
 					//si l'action est reply
 					if($action == "reply")
 					{	
-						$post_id = htmlEntities($_GET['post_id']);
-						$topic_id = htmlEntities($_GET['topic_id']);
-						if(isset($post_id) && is_numeric($post_id)){
-							if(isset($topic_id) && is_numeric($topic_id)){
+						if(isset($_GET['topic_id']) && is_numeric($_GET['topic_id']))
+						{
+							$topic_id = htmlEntities($_GET['topic_id']);
+							if(isset($_GET['post_id']) && is_numeric($_GET['post_id'])){
+								$post_id = htmlEntities($_GET['post_id']);
+																			
 								$forumDataTools = new ForumDataTools();
 								$post = $forumDataTools->get_post($post_id);																																								
 								$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_TOPIC,$topic_id);								
-								//data pour l'affichage du post auquel l'utilisateur répond
-								$post->setPostId($post->getPostId());
-								$post->setTopicId($topic_id);
-								$post->setPostText($post->getPostText());
-								$post->setTopicName($post->getTopicName());		
-							}
-						}				
+								//data pour l'affichage du post auquel l'utilisateur répond							
+								$post->setTopicId($topic_id);															
+							
+							}								
+						}
+									
 					}
 					//si l'action est new
 					if($action == "new")
@@ -62,21 +63,37 @@
 					//si l'action est edit
 					if($action == "edit")
 					{
-						$post_id = htmlEntities($_GET['post_id']);
-						$topic_id = htmlEntities($_GET['topic_id']);
-						if(isset($post_id) && is_numeric($post_id)){
-							if(isset($topic_id) && is_numeric($topic_id)){
-								$forumDataTools = new ForumDataTools();
-								$post = $forumDataTools->get_post_foredit($post_id);																																								
-								$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_TOPIC,$topic_id);								
-								//data pour le post que l'utilisateur edit
-								$post->setPostId($post->getPostId());
-								$post->setTopicId($topic_id);
-								$post->setPostText($post->getPostText());
-								$post->setTopicName($post->getTopicName());								
-							}
+						if(isset($_GET['post_id']) && is_numeric($_GET['post_id'])
+						    && isset($_GET['topic_id']) && is_numeric($_GET['topic_id'])){
+							
+							$post_id = htmlEntities($_GET['post_id']);
+							$topic_id = htmlEntities($_GET['topic_id']);							
+							
+							$forumDataTools = new ForumDataTools();
+							$post = $forumDataTools->get_post_foredit($post_id);																																								
+							$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_TOPIC,$topic_id);								
+							//data pour le post que l'utilisateur edit							
+							$post->setTopicId($topic_id);														
+							
 						}	
-					}	
+					}
+					if($action == "delete")
+					{	
+						if(isset($_GET['post_id']) && isset($_GET['topic_id'])
+							&& is_numeric($_GET['post_id']) && is_numeric($_GET['topic_id'])){
+							
+							$post_id = htmlEntities($_GET['post_id']);
+							$topic_id = htmlEntities($_GET['topic_id']);
+														
+							$forumDataTools = new ForumDataTools();
+							$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_TOPIC,$topic_id);
+							$post = $forumDataTools->get_post($post_id);
+							
+							//on vérifie qu'il y a bien un post de trouver
+							//note : on fait cette vérification spéciale ici car il est possible que l'utilisateur revienne sur cette page après avoir fait un "précédent" sur son browser après que le post ai été supprimer 
+							if($post != null) $post->setTopicId($topic_id);  	 	 																			
+						}
+					}
 				}		
 			}
 			else $action = null;
@@ -97,7 +114,7 @@
 			if($action == "reply")
 			{
 				//si l'objet post a été initalisé
-				if($post!= null){
+				if($topic_id != null){
   					$css_list[0] = "style_topic.css";
 					$display =  forumHeader(true,$css_list)."\n".															
 			  		post_display($post,$action,$ariane,$post->getTopicId())."\n".
@@ -121,8 +138,7 @@
 			  		forumFooter()."\n";
 				}
 				//sinon, on a rien à faire la
-				else{
-					
+				else{					
 					$display =  forumHeader()."\n".						
 			  		m_illegal_action()."\n".
 			  		forumFooter()."\n";		
@@ -131,22 +147,44 @@
 			//si l'action est edit
 			else if($action == "edit")
 			{
-				$css_list[0] = "style_topic.css";
-				$display =  forumHeader(true,$css_list)."\n".															
-			  	post_display($post,$action,$ariane,$post->getPostId())."\n".
-			  	forumFooter()."\n";
+				if($post != null){										
+					$css_list[0] = "style_topic.css";
+					$display =  forumHeader(true,$css_list)."\n".															
+				  	post_display($post,$action,$ariane,$post->getPostId())."\n".
+				  	forumFooter()."\n";
+				}
+				else{
+					$display =  forumHeader()."\n".						
+			  		m_illegal_action()."\n".
+			  		forumFooter()."\n";
+				}
 			}	
-			else {
-				$display =  forumHeader()."\n".						
+			else if ($action == "delete")
+			{				
+				if($topic_id != null && $post!= null){
+					
+					$css_list[0] = "style_topic.css";
+					$display =  forumHeader(true,$css_list)."\n".									  		
+			  		delete_post_display($post,$action,$ariane)."\n".
+			  		forumFooter()."\n";						
+				}
+				else {
+					$display =  forumHeader()."\n".						
 			  		m_illegal_action()."\n".
 			  		forumFooter()."\n";		
+				}
+			}
+			else {
+				$display =  forumHeader()."\n".						
+			  	m_illegal_action()."\n".
+			  	forumFooter()."\n";		
 			}
 		}
 		//si l'utilisateur n'est pas connecté		
 		else {
 			$display =  forumHeader()."\n".						
-			  	m_user_not_connected()."\n".
-			  	forumFooter()."\n";	
+			m_user_not_connected()."\n".
+			forumFooter()."\n";	
 		} 
 	}
 	//s'il y a pas d'action

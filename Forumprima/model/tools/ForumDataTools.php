@@ -21,8 +21,18 @@ class ForumDataTools{
   	 public function get_forum($forum_id,$forum_name){
   	 	return $this->forumDAO->get_forum($forum_id,$forum_name);  	 	
   	 }
-  	 public function get_topic($topic_id,$topic_name){
-  	 	return $this->forumDAO->get_topic($topic_id,$topic_name);
+  	 public function get_topic($topic_id,$topic_name = null){
+  	 	$topic = $this->forumDAO->get_topic($topic_id,$topic_name);
+  	 	
+  	 	if(!empty($topic)){
+	  	 	//on recherche et assigne le post id du post original de ce topic
+	  	 	$post_list = $topic->getPostList();
+	  	 	if(!empty($post_list)){  	
+	  	 		$post_list[0]->setOriginalPost(true); 	
+	  	 		$topic->setOriginalPostId($post_list[0]->getPostId());
+	  	 	}  	 	
+  	 	}
+  	 	return $topic;
   	 }
   	 /*
   	  * param : $id => id du forum/topic sur lequel on se trouve actuellement 
@@ -100,5 +110,11 @@ class ForumDataTools{
   	  	
   	  	$this->forumDAO->update_post($post_id,$post_text);
   	  }
+  	  public function delete_post($post_id){
+  	  	  	  	
+  	  	$this->forumDAO->delete_post($post_id);
+  	  }
+  	    	  
+  	  
 }
 ?>

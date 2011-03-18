@@ -209,7 +209,7 @@
   * un objet de type topic contient des infos sur un topic de forum
   */
  class Topic{
- 	private $topic_id;
+ 	private $topic_id ;
  	private $topic_name;
  	private $topic_original_poster;
  	private $topic_last_poster;
@@ -218,13 +218,14 @@
  	private $topic_order;
  	private $forum_id;
  	private $post_list; 
+ 	private $original_post_id;
  	
  	/**
  	 * Constructor 
  	 */
     public function __construct()
     {   	 	
-	 	$this->post_list = array();		
+	 	$this->post_list = array();			 	
     }
       
  	public function getTopicId(){
@@ -240,7 +241,12 @@
  	public function setTopicName($topic_name){
  		$this->topic_name = $topic_name;
  	}
- 	
+ 	public function getOriginalPostId(){
+ 		return $this->original_post_id;
+ 	}
+ 	public function setOriginalPostId($original_post_id){
+ 		$this->original_post_id = $original_post_id;
+ 	}
  	public function getTopicOriginalPoster(){
  		return $this->topic_original_poster;
  	}
@@ -296,7 +302,11 @@
 	 private $post_date; //date de création
 	 private $topic_id;
 	 private $topic_name;
+	 private $is_original_post;
 	 
+	 public function __construct(){
+	 	$this->is_original_post = false;
+	 }
 	 
 	 public function getPostId(){
 	 	return $this->post_id;
@@ -337,6 +347,12 @@
 	 public function setTopicName($topic_name){
 	 	$this->topic_name = $topic_name;
 	 }	 
+	 public function isOriginalPost(){
+	 	return $this->is_original_post;	 
+	 }
+	 public function setOriginalPost($bool){
+	 	return $this->is_original_post = $bool;
+	 }
  }
  //END OF CLASS
  
