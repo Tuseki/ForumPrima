@@ -31,8 +31,7 @@
 		if(is_string($action)){
 			//si c'est une réponse de post
 			if($action == "reply"){
-				$topic_id = $_SESSION['topic_id'];		
-				echo "topic id ".$topic_id;			
+				$topic_id = $_SESSION['topic_id'];									
 				unset($_SESSION['topic_id']);	
 			}
 			//si c'est la création d'un nouveau topic

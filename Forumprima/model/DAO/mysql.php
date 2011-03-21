@@ -161,7 +161,7 @@
  	 public function get_forum($forum_id){
  		if (isset($this->DBConnect)){
  			try{		 		 				
- 				$result = $this->DBConnect->query("SELECT topic_id, topic_name FROM forum_topic WHERE forum_id = ".$forum_id." ORDER BY topic_id"); 				
+ 				$result = $this->DBConnect->query("SELECT topic_id, topic_name FROM forum_topic WHERE forum_id = ".$forum_id." ORDER BY topic_last_post_time DESC"); 				
  				return $result->fetchAll();
  								 				 			 				 	
  			}
@@ -191,7 +191,7 @@
  	 	if (isset($this->DBConnect)){
  			try{	
  				
- 				$result = $this->DBConnect->query("SELECT post_id, post_text, post_creator " .
+ 				$result = $this->DBConnect->query("SELECT post_id, post_text, post_creator,post_time " .
  								"FROM forum_post " . 								
  								"WHERE forum_post.topic_id = ".$topic_id." ".
  								"ORDER BY post_id "); 				
@@ -238,7 +238,7 @@
  	 public function get_post($post_id){
  	 	if (isset($this->DBConnect)){
  			try{		 		 				
- 				$result = $this->DBConnect->query("SELECT post_id, post_text, post_creator, topic_name " .
+ 				$result = $this->DBConnect->query("SELECT post_id, post_text, post_creator, post_time, topic_name " .
  								"FROM forum_post " .
 								"LEFT OUTER JOIN forum_topic " .
 								"ON forum_post.topic_id = forum_topic.topic_id ". 								
@@ -254,26 +254,31 @@
  	 /*
  	  * écriture de post
  	  */
- 	 public function write_post($post_text,$post_creator,$topic_id){
+ 	 public function write_post($post_text,$post_creator,$topic_id,$post_time){
  	 	if (isset($this->DBConnect)){
  			try{		 	 				 	 			
  				$this->DBConnect->exec("INSERT INTO forum_post " .
- 									   "(post_text,post_creator,topic_id) " .
- 									   "VALUES (\"".$post_text."\" , \"".$post_creator."\" , ".$topic_id.")"); 				 				 								 				 			 				 	
+ 									   "(post_text,post_creator,topic_id,post_time) " .
+ 									   "VALUES (\"".$post_text."\" , \"".$post_creator."\" , ".$topic_id." , ".$post_time.")");
+ 				$this->DBConnect->exec("UPDATE forum_topic " .
+ 									   "set topic_last_post_time = ".$post_time." ".
+ 									   "WHERE topic_id = ".$topic_id); 
+ 				 				 				 								 				 			 				 	
  			}
  			catch(Exception $e){
  				die ("write post error nbr ".$e->getCode()."\n message : ".$e->getMessage());
  			}
  		}
  	 } 
- 	 public function write_topic($topic_name,$forum_id,$post_text,$topic_creator){
+ 	 public function write_topic($topic_name,$forum_id,$post_text,$topic_creator,$topic_last_post_time,$topic_creation_time){
  	 	if (isset($this->DBConnect)){ 	 		
- 			try{		 	 					 				
+ 			try{
  				$this->DBConnect->exec("INSERT INTO forum_topic " .
- 									   "(forum_id,topic_name,topic_creator) " .
- 									   "VALUES (\"".$forum_id."\" , \"".$topic_name."\" , \"".$topic_creator."\")"); 				 				 								 				 			 				 	
- 				$topic_id = $this->DBConnect->lastInsertId(); 				
- 				$this->write_post($post_text,$topic_creator,$topic_id);
+ 									   "(forum_id,topic_name,topic_creator,topic_creation_time,topic_last_post_time) " .
+ 									   "VALUES (\"".$forum_id."\" , \"".$topic_name."\" , \"".$topic_creator."\",".$topic_creation_time.", ".$topic_last_post_time.")"); 				 				 								 				 			 				 	
+ 				$topic_id = $this->DBConnect->lastInsertId(); 			
+ 				echo $topic_id;	
+ 				$this->write_post($post_text,$topic_creator,$topic_id,$topic_last_post_time);
  				return $topic_id;
  			}
  			catch(Exception $e){
@@ -285,11 +290,8 @@
   	  	if (isset($this->DBConnect)){ 	 		
  			try{		 	 					 				
  				$this->DBConnect->exec("UPDATE forum_post " .
- 									   "SET post_text = \"".$post_text."\" " . 									   
- 									   "WHERE post_id = ".$post_id); 				 				 								 				 			 				 	
- 				$topic_id = $this->DBConnect->lastInsertId(); 				
- 				$this->write_post($post_text,$topic_creator,$topic_id);
- 				return $topic_id;
+ 									   "SET post_text = \"".$post_text."\"". 									   
+ 									   "WHERE post_id = ".$post_id); 				 				 								 				 			 				 	 				
  			}
  			catch(Exception $e){
  				die ("update post error nbr ".$e->getCode()."\n message : ".$e->getMessage());
@@ -307,5 +309,6 @@
  			}
  		}
   	  }
+  	
  }
 ?>

@@ -86,6 +86,7 @@
 	  	 		
 	  	 		$post->setPostId($postDB['post_id']);
 	  	 		$post->setPoster($postDB['post_creator']);
+	  	 		$post->setPostDate($postDB['post_time']);
 	  	 		$post->setPostText($postDB['post_text']);
 	  	 		$post->setTopicId($topic_id);
 	  	 		
@@ -123,6 +124,7 @@
   	 	 $post->setPoster($result['post_creator']);
   	 	 $post->setPostText($result['post_text']);
   	 	 $post->setPostId($result['post_id']);
+  	 	 $post->setPostDate($result['post_time']);
   	 	 $post->setTopicName(utf8_encode($result['topic_name']));
   	 	 
   	 	 if($result == false){
@@ -134,26 +136,25 @@
   	 /*
   	  * écriture 
   	  */  	 
-  	 public function write_post($post){
+  	 public function write_post($post,$post_creation_time){
   	 	$post_text = $post->getPostText();
   	 	$post_creator = $post->getPoster();
   	 	$topic_id = $post->getTopicId();
-  	 	$this->db->write_post($post_text,$post_creator,$topic_id);
+  	 	$this->db->write_post($post_text,$post_creator,$topic_id,$post_creation_time);
   	 } 
-  	 public function write_topic($topic,$post_text){
+  	 public function write_topic($topic,$post_text,$topic_creation_time){
   	 	$topic_name = $topic->getTopicName();
   	 	$forum_id = $topic->getForumId();
   	 	$topic_creator = $topic->getTopicOriginalPoster();
   	 	  	 	  	 	
-  	 	return $this->db->write_topic($topic_name,$forum_id,$post_text,$topic_creator);
+  	 	return $this->db->write_topic($topic_name,$forum_id,$post_text,$topic_creator,$topic_creation_time,$topic_creation_time);
   	 }
-  	 public function update_post($post_id,$post_text){
-  	  	$this->db->update_post($post_id,$post_text);
+  	 public function update_post($post_id,$post_text,$topic_last_post_time){
+  	  	$this->db->update_post($post_id,$post_text,$topic_last_post_time);
   	  }
-  	   public function delete_post($post_id){
+  	 public function delete_post($post_id){
   	  	$this->db->delete_post($post_id);
-  	  }
-  	 
-  	 
+  	 }
+  
   }
 ?>

@@ -58,7 +58,7 @@
 							$topic_creator = User_Connexion::get_user_name();
 																		
 							$forumDataTools = new ForumDataTools();
-							$topic_id = $forumDataTools->write_topic($topic_name,$forum_id,$post_text,$topic_creator);														
+							$topic_id = $forumDataTools->write_topic($topic_name,$forum_id,$post_text,$topic_creator,time());														
 							
 							$_SESSION['forum_id'] = $forum_id;
 							$_SESSION['topic_id'] = $topic_id;
@@ -77,7 +77,7 @@
 							$post_creator = User_Connexion::get_user_name();
 																									
 							$forumDataTools = new ForumDataTools();
-							$forumDataTools->update_post($post_id,$post_text);
+							$forumDataTools->update_post($post_id,$post_text,time());
 														
 							$_SESSION['topic_id'] = $topic_id;
 							$_SESSION['action'] = $action;

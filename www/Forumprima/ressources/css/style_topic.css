@@ -6,21 +6,23 @@ div.topictitre{
 	padding-left:30px;
 	margin:auto;
 	margin-top:15px;
-	
+
 	width:870px;
-			
+
 	height:50px;
-	background-color:#B90012;	
-	
-	border:2px #900 solid;		
-	
+	background-color:#B90012;
+
+	border:2px #900 solid;
+
 	display:table;
 
 }
-div.avatar{
-	margin:auto;
-	float:left;
+td.avatar{
 	
+	
+	vertical-align:top;
+	margin:auto;
+
 	width:170px;
 	min-height:125px;
 	background-color:#333;
@@ -38,9 +40,10 @@ div.avatar{
 	border-left-style:solid;
 	
 }
-div.post{
+td.post{
+	vertical-align:top;
 	margin:auto;
-	float:left;	
+	
 	width:728px;
 	min-height:125px;
 	background-color:#333;
@@ -52,7 +55,15 @@ div.post{
 	border-right:2px;
 	border-right-color:#900;
 	border-right-style:solid;
+	padding-bottom:5px;
 
+}
+div.post{
+	margin:auto;	
+	float:left;
+	width:728px;
+	min-height:125px;
+	
 }
 div.postmenu{
 	height:35px;
@@ -75,7 +86,11 @@ p.topictext{
 	text-align:left;
 	font-size:14px;
 	font-color:#FFFFFF;
+
 }
+
+
+
 
 
 

@@ -23,14 +23,14 @@ class ForumDataTools{
   	 }
   	 public function get_topic($topic_id,$topic_name = null){
   	 	$topic = $this->forumDAO->get_topic($topic_id,$topic_name);
-  	 	
+  	 	  	 	  	 	
   	 	if(!empty($topic)){
 	  	 	//on recherche et assigne le post id du post original de ce topic
 	  	 	$post_list = $topic->getPostList();
 	  	 	if(!empty($post_list)){  	
 	  	 		$post_list[0]->setOriginalPost(true); 	
 	  	 		$topic->setOriginalPostId($post_list[0]->getPostId());
-	  	 	}  	 	
+	  	 	}  	 		  	 	
   	 	}
   	 	return $topic;
   	 }
@@ -53,7 +53,7 @@ class ForumDataTools{
 		
 		return $ariane ;
   	 }
-  	 public function get_post($post_id){
+  	 public function get_post($post_id){  	 	  	
   	 	return $this->forumDAO->get_post($post_id);
   	 } 
   	 public function get_post_foredit($post_id){
@@ -85,13 +85,12 @@ class ForumDataTools{
   	  	$post->setTopicId($topic_id);
   	  	$post->setPoster($post_creator);
   	  	$post->setPostText($post_text);
-  	  	//$post->setPostDate(date('H\hi \l\e d M y',time()));
   	  	
-  	  	$this->forumDAO->write_post($post);
+  	  	$this->forumDAO->write_post($post,time());
   	  	  	  	
   	  	
   	  }
-  	  public function write_topic($topic_name,$forum_id,$post_text,$topic_creator){
+  	  public function write_topic($topic_name,$forum_id,$post_text,$topic_creator,$topic_creation_time){
   	  	$post = new Post();
   	  	$post->setPoster($topic_creator);
   	  	$post->setPostText($post_text);  
@@ -101,19 +100,20 @@ class ForumDataTools{
   	  	$topic->setForumId($forum_id);  	  	
   	  	$topic->setTopicOriginalPoster($topic_creator);
   	  	
-  	  	return $this->forumDAO->write_topic($topic,$post_text);  	  	
+  	  	return $this->forumDAO->write_topic($topic,$post_text,$topic_creation_time);  	  	
   	  }
-  	  public function update_post($post_id,$post_text){
+  	  public function update_post($post_id,$post_text,$topic_last_post_time){
   	  	
   	  	//vérification et formatage du texte du post 
   	  	$post_text = $this->encode($post_text);
   	  	
-  	  	$this->forumDAO->update_post($post_id,$post_text);
+  	  	$this->forumDAO->update_post($post_id,$post_text,$topic_last_post_time);
   	  }
   	  public function delete_post($post_id){
   	  	  	  	
   	  	$this->forumDAO->delete_post($post_id);
   	  }
+  	 
   	    	  
   	  
 }

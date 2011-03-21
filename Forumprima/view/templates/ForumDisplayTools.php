@@ -23,26 +23,27 @@
   return $data;
  }
  function postCanvas($post,$mustShowMenu=true){
+	$data = '';
 
- 	$data ='';
- 	$data .=			 '   <div><div class="avatar" >'.
-                    			$post->getPoster().
-						    '</div>
-            			     <div class="post" >
-                    		 	<div class="postmenu"><p>
-									<span class = "posttitle">posté le XXXX</span>
-		                            <span style="float:right">';
-	if($mustShowMenu){		
+ 	$data .= '   <div><table cellspacing=0 cellpadding=0><tr>
+ 					<td class="avatar"><div style="text-align:center;min-height:125px;">'.
+                  			$post->getPoster().
+				   '</div></td>
+            	    <td class="post"><div class="poster">
+                    	 	<div class="postmenu"><p >
+									<span class = "posttitle">posté le '.date('d M y, à H\hi ',$post->getPostDate()).'</span>';
+if($mustShowMenu){		
+		$data .= '					<span style="float:right">';
 		$data .= User_Connexion::get_user_name() == $post->getPoster() && !$post->isOriginalPost() ?'<a href ="./post.php?action=delete&topic_id='.$post->getTopicId().'&post_id='.$post->getPostId().'" class="topicbutton">Supprimer</a>' : '';
 		$data .= User_Connexion::get_user_name() == $post->getPoster() ?'<a href ="./post.php?action=edit&topic_id='.$post->getTopicId().'&post_id='.$post->getPostId().'" class="topicbutton">Editer</a>' : '';
 		$data .= '<a href ="./post.php?action=reply&topic_id='.$post->getTopicId().'&post_id='.$post->getPostId().'" class="topicbutton">Répondre</a></span>';
 	}	                            		                	              
-    $data .=        		   '</p></div>
-		                        <div class="postcontent"><p class="topictext">';
+    $data .=              '</p></div>
+		                   <div class="postcontent"><p class="topictext">';
     $data .= $post->getPostText();                                       
-    $data .=           '		</p></div>
-        		            </div></div>
-						';
+    $data .=           '   </p></div>
+        		   </div></td>
+        		</tr></table></div>';
  
  	
  	return $data;
@@ -111,7 +112,7 @@
     				   '  	 <div  style="width:606px;">';
     $data .= $action == "new" ? '<div style="float:left;"><div><p style="float:left"> Titre du sujet  :  <input style="border:#900 solid 3px;width:350px" type="text" name="topic_name"/></p></div>' .
     		'					<div style="clear:both;"></div><div style="height:25px"></div>' : '';
-	$data .='         		 	<textarea name="text" style="margin:auto;width:600px;height:300px;overflow:hidden;border:#900 solid 3px" >'.($action=="edit"?$post->getPostText():'').'</textarea>' .
+	$data .='         		 	<textarea name="text" style="margin:auto;width:600px;height:300px;overflow:autog;border:#900 solid 3px" >'.($action=="edit"?$post->getPostText():'').'</textarea>' .
 			'				</div>   
                              <div style="height:25px"></div>      
                              <input type="submit" value="Envoyer"/> 

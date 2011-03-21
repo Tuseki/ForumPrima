@@ -33,7 +33,7 @@
 				$forumDataTools = new ForumDataTools();				
 				$ariane = $forumDataTools->get_ariane(ForumDataTools::ARIANE_TOPIC,$topic_id);
 								
-				$topic = $forumDataTools->get_topic($topic_id,$ariane[3]["name"]);				
+				$topic = $forumDataTools->get_topic($topic_id,$ariane[3]["name"]);								
 			}
 		}
 		else $topic_id = null;
