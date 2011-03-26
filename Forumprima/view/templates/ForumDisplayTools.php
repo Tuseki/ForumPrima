@@ -9,7 +9,7 @@
  }
  function subjectCanvas($topicName,$topic_id,$type='forum'){
  	$data  ='<div class="cadre">'."\n".
-   		    '	<p style="font-size:0.9em;text-align:left;"><a href="'.$type.'.php?id='.$topic_id.'">'.$topicName.'</a></p>'."\n".
+   		    '	<p style="font-size:0.9em;text-align:left;"><a href="'.$type.'.php?id='.$topic_id.'&page=1">'.$topicName.'</a></p>'."\n".
     	    '</div>'."\n";
     
     return $data;
@@ -63,33 +63,35 @@ if($mustShowMenu){
 	}	 	
  	return utf8_encode($data);
  }
- function forum_display($forum,$ariane){
+ function forum_display($forum_id,$forum_name,$topic_list,$ariane,$pagination){
  	$data = '';
 	
 	$data  .= '<div>'."\n". 
-			  forum_menu($forum->getForumId())."\n".
+			  forum_menu($forum_id)."\n".
 			  ariane($ariane)."\n".
-	          titleCanvas($forum->getForumName());      		     
-	foreach($forum->getTopicList() AS $topic_index => $topic){		    		
+	          titleCanvas($forum_name);      		     
+	if($topic_list != null) foreach($topic_list AS $topic_index => $topic){		    		
 		$data .= subjectCanvas($topic->getTopicName(),$topic->getTopicId(),'viewTopic');	
 	}    
-		$data .= '</div>'."\n";		 		    		    			 
+		$data .= '</div>'."\n";	
+    $data .= $pagination != null?pagination($forum_id,$pagination->getNbrPage(),$pagination->getCurrentPage(),"forum")."\n":'';			 		    		    			 
  	return utf8_encode($data);
  }
- function topic_display($topic,$ariane){
+ function topic_display($topic_id,$topic_name,$post_list,$ariane,$pagination){
  	$data = '';
  	
  	$data  .= '<div>'."\n".  			
  			ariane($ariane)."\n".
- 			topicTitleCanvas($topic->getTopicName())."\n". 			
+ 			topicTitleCanvas($topic_name)."\n". 			
  			'		<div style="margin-left:15px">'."\n";
  			           
- 	foreach($topic->getPostList() AS $post_index => $post){		    		
+ 	if($post_list != null) foreach($post_list AS $post_index => $post){		    		
 		$data .= postCanvas($post);	
 	}		
 	$data .='		</div>'."\n".
             '</div>'."\n".
             '<div style="clear:both"/>'."\n";	
+ 	$data .= $pagination != null?pagination($topic_id,$pagination->getNbrPage(),$pagination->getCurrentPage(),"viewTopic")."\n":'';
  	
  	return utf8_encode($data);
  }
@@ -120,7 +122,7 @@ if($mustShowMenu){
 	$data .= $action== "edit"? '<input type="hidden" name="topic_id" value="'.$post->getTopicId().'"/>':'';
 	$data .='  			</div>
                     </FORM>
-             </div>';
+             </div>';    
  	
  	return utf8_encode($data);
  	
@@ -172,6 +174,15 @@ if($mustShowMenu){
  	}
  	$data .='</div>
  			<div style="clear:both"/>';	
+ 	return $data;
+ }
+ function pagination($topic_id,$nbrPage,$currentPage,$type){
+ 	$data = '';
+ 	$data .= $currentPage-1 > 0 ?' <a href="'.$type.'.php?id='.$topic_id.'&page='.($currentPage-1).'"> << </a>&nbsp ':'';
+ 	for($i=1;$i<=$nbrPage;$i++){ 	
+ 		$data .=' <a href="'.$type.'.php?id='.$topic_id.'&page='.$i.'"> '.$i.' </a>&nbsp '; 		  
+ 	}
+ 	$data .= $currentPage+1 <= $nbrPage?' <a href="'.$type.'.php?id='.$topic_id.'&page='.($currentPage+1).'"> >> </a> ':'';
  	return $data;
  }
 

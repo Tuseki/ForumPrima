@@ -19,7 +19,12 @@
  	define ("APPPATH", $_SERVER['DOCUMENT_ROOT'].'/../'.APPNAME);
  	
  	//web
- 	define ("WEBADRESSROOT",$settings['web']['webadressroot']); 	 	
+ 	define ("WEBADRESSROOT",$settings['web']['webadressroot']);
+ 	
+ 	//config 
+
+ 	define ("NBRTOPICBYPAGE",$settings['config']['nbrTopicByPage']); 	 	
+ 	define ("NBRPOSTBYPAGE",$settings['config']['nbrPostByPage']);
  }
  	else echo 'Unable to open ' . $file . '.'; 
  

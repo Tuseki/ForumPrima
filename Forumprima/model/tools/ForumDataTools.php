@@ -35,6 +35,43 @@ class ForumDataTools{
   	 	return $topic;
   	 }
   	 /*
+  	  * parmi un tabeau de donnée ($data) (list de post, de forum, ou autre, peu importe)
+  	  * retourne les éléments de la "page" demandée
+  	  * 
+  	  * Le nombre d'élément par page est défini en configuration
+  	  */
+  	 public function get_page($data,$page,$nbrByPage){		
+  	 	$originIndex = $page * $nbrByPage - $nbrByPage; // e.g : 1 * 15 -15 => on commence au premier index
+  		
+  		$endIndex = $originIndex + $nbrByPage;
+  		  		  		  		  	
+		if(array_key_exists($originIndex,$data)){					
+  	 		if ($originIndex != $endIndex) $returnData = array_slice($data,$originIndex,$endIndex);
+  	 		else $returnData = array($data[$originIndex]);
+  	 		  	 				
+  	 		return $returnData;
+		}
+		else return null;
+  	 }
+  	 /*
+  	  * Cette fonction renvoi un objet pagination initialisé en fonction des $data envoyé
+  	  * 
+  	  */
+  	 public function get_pagination($data,$currentPage,$nbrByPage){
+  	 	
+  	 	$nbrPage = count($data) / $nbrByPage;  	 	
+  	 	if((count($data) % $nbrByPage) != 0) $nbrPage ++; // s'il y a un reste à cette division, c'est qu'il y a une page en plus
+  	 	
+  	 	if($nbrPage > 0){ 
+  	 		$pagination = new Pagination();
+  	 		$pagination->setNbrPage($nbrPage);
+  	 		$pagination->setCurrentPage($currentPage); 
+  	 	}
+  	 	else $pagination = null;
+  	 	
+  	 	return $pagination;
+  	 }
+  	 /*
   	  * param : $id => id du forum/topic sur lequel on se trouve actuellement 
   	  */
   	 public function get_Ariane($type,$id = null){  	 	
@@ -113,6 +150,7 @@ class ForumDataTools{
   	  	  	  	
   	  	$this->forumDAO->delete_post($post_id);
   	  }
+  	  
   	 
   	    	  
   	  
