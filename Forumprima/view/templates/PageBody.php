@@ -27,9 +27,6 @@
 	    return $data;
 	}
 
-	
-	
-	
 	function forumFooter(){
 		$data = 
 			'	</div>

@@ -15,6 +15,8 @@
  	$data =		
  		menuLink('Accueil','index.php').
  		'	&nbsp -  &nbsp'."\n". 
+ 		menuLink('Profil','./profil.php').
+ 		'	&nbsp -  &nbsp'."\n". 
  		menuLink('Deconnexion','./deconnexion.php');
  		
  	return $data;		

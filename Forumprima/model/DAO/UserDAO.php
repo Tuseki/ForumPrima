@@ -34,6 +34,25 @@ require_once(APPPATH.'/model/DAO/mysql.php');
 	 	if ($isValided)$this->db->set_user_active($login,true);
 	 	return $isValided;
     }
+    
+     public function get_user($user_id){
+     	$result = $this->db->get_user($user_id);     	
+     	$user = new User();      	
+     	$user->set_user_id($result["u_id"]);
+     	$user->set_user_name($result["u_login"]);
+     	$user->set_email($result["u_mail"]);
+     
+  	 	return $user;
+  	 }
+  	 public function set_user_password($user_id,$password){
+  	 	$this->db->set_user_password($user_id,$password);
+  	 }
+  	 public function get_user_id($user_name){
+  	 	$id = $this->db->get_user_id($user_name);
+  	 	return $id['u_id'];
+  	 }
+  	 
+  	 
    
  }
  

@@ -2,6 +2,7 @@
 class ForumSession{
  	private $isConnected;
  	private $user_name; 
+ 	private $user_id;
  	
  	public function isConnected(){
  		return $this->isConnected;
@@ -17,6 +18,12 @@ class ForumSession{
  	}
  	public function set_user_name($user_name){
  		$this->user_name = $user_name;
+ 	}
+ 	public function get_user_id(){
+ 		return $this->user_id;
+ 	}
+ 	public function set_user_id($user_id){
+ 		$this->user_id = $user_id;
  	}
  	private function setConnected($bool){
  		if(is_bool($bool)){

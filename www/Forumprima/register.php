@@ -38,8 +38,7 @@
 		$err_tab = $registerTools->get_err_tab();
 		
 		$user = $registerTools->getUser();		
-		
-				 		
+						 	
 	}			
  	//si le formulaire est validé
  		/*

@@ -180,7 +180,7 @@ if($mustShowMenu){
  	$data = '';
  	$data .= $currentPage-1 > 0 ?' <a href="'.$type.'.php?id='.$topic_id.'&page='.($currentPage-1).'"> << </a>&nbsp ':'';
  	for($i=1;$i<=$nbrPage;$i++){ 	
- 		$data .=' <a href="'.$type.'.php?id='.$topic_id.'&page='.$i.'"> '.$i.' </a>&nbsp '; 		  
+ 		$data .=' <a href="'.$type.'.php?id='.$topic_id.'&page='.$i.'">'.$i.'</a>&nbsp '; 		  
  	}
  	$data .= $currentPage+1 <= $nbrPage?' <a href="'.$type.'.php?id='.$topic_id.'&page='.($currentPage+1).'"> >> </a> ':'';
  	return $data;

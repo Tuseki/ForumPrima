@@ -3,6 +3,7 @@
 require_once(APPPATH.'/model/DAO/UserDAO.php');
 
 class User_Connexion{
+	
 	static function is_already_Connected(){
 		if( !isset($_SESSION['usersession']) || !$_SESSION['usersession']->isConnected())
 		{
@@ -15,7 +16,9 @@ class User_Connexion{
 	 	$_SESSION['usersession'] = new ForumSession();
 		$_SESSION['usersession']->connexion();
 		$_SESSION['usersession']->set_user_name($user_name);
-		
+		$userDAO = new UserDAO();
+		$user_id = $userDAO->get_user_id($user_name); 		
+		$_SESSION['usersession']->set_user_id($user_id);	
 	 }
 	 
 	/*
@@ -27,8 +30,7 @@ class User_Connexion{
      */
  	static function user_connexion_attempt($login,$password){ 		 
  			$password = md5($password); 
- 					    
- 		    $userDAO = new UserDAO();
+			$userDAO = new UserDAO();
  		    return $userDAO->user_connexion_attempt($login,$password); 		     		  
  	}
 	 static function user_deconnexion(){ 	
@@ -38,6 +40,9 @@ class User_Connexion{
 	 }
 	 static function get_user_name(){
 	 	return $_SESSION['usersession']->get_user_name();
+	 }
+	  static function get_user_id(){
+	 	return $_SESSION['usersession']->get_user_id();
 	 }
 }
   

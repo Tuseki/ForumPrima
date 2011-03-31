@@ -11,6 +11,9 @@ class ForumDataTools{
 	public function __construct(){
 		$this->forumDAO = new ForumDAO();
 	}
+	
+
+	
      /*  
   	  * retourne un objet de type CategorieList
   	  */ 

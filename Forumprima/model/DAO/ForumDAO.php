@@ -8,7 +8,8 @@
      {
         $this->db = Forum_Mysql::getInstance(); 
      }  	 
-  	 
+  	   	   	
+  
   	 /*  
   	  * retourne un objet de type CategorieList
   	  */ 

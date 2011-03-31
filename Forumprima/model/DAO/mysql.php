@@ -325,6 +325,49 @@
  			}
  		}
   	  }
+  	  /**
+  	   * function de profil
+  	   */
+  	  public function get_user($user_id){  	  	
+  	  	if (isset($this->DBConnect)){ 	 		
+ 			try{		 	 					 				
+ 				$result = $this->DBConnect->prepare("SELECT * FROM forum_user " . 									    									  
+ 									   "WHERE u_id = ".$user_id);
+				$result->execute(); 
+				return $result->fetch();									    				 				 								 				 			 				 	 				 				 			 				
+ 			}
+ 			catch(Exception $e){
+ 				die ("select user error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+  	  }
+  	   public function set_user_password($user_id,$password){
+  	 	if (isset($this->DBConnect)){ 	 		
+ 			try{		 	 					 				
+ 				$result = $this->DBConnect->prepare("UPDATE forum_user " .
+ 									   "SET u_password = \"".$password."\"".									    									  
+ 									   "WHERE u_id = ".$user_id);
+				$result->execute(); 									    				 				 								 				 			 				 	 				 				 			 				
+ 			}
+ 			catch(Exception $e){
+ 				die ("change password error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+  	 }
+  	 public function get_user_id($user_name){  	 	
+  	 	if (isset($this->DBConnect)){ 	 		
+ 			try{		 	 	
+ 											    				 				
+ 				$result = $this->DBConnect->prepare("SELECT u_id FROM forum_user " . 									    									  
+ 									   "WHERE u_login = \"".$user_name."\"");
+				$result->execute();
+				return $result->fetch(); 									    				 				 								 				 			 				 	 				 				 			 				
+ 			}
+ 			catch(Exception $e){
+ 				die ("get user_id error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+  	 }
   	
  }
 ?>

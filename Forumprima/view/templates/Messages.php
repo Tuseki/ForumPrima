@@ -94,7 +94,17 @@
 			 
 	return utf8_encode($data);
  }
-
+ function m_passwordchanged(){
+ 	$data = 
+ 		'<div>
+			<br>
+			Votre mot de passe a bien été changé
+			<br>
+			Cliquez <a href="./profil.php">ici</a> pour revenir sur la page de profil.				
+		</div>';
+			 
+	return utf8_encode($data);
+  }
   function m_user_deconnexion(){
  	$data = 
  		'<div>
@@ -117,6 +127,7 @@
 			 
 	return utf8_encode($data);
  }
+ 
  
  
 ?>
