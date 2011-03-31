@@ -105,6 +105,17 @@
 			 
 	return utf8_encode($data);
   }
+  function m_new_password_sent(){
+  	$data = 
+ 		'<div>
+			<br>
+			Votre nouveau mot de passe vous a été envoyé par mail
+			<br>
+			Cliquez <a href="./index.php">ici</a> pour revenir sur la page d\'accueil.				
+		</div>';
+			 
+	return utf8_encode($data);
+  }
   function m_user_deconnexion(){
  	$data = 
  		'<div>

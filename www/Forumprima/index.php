@@ -9,6 +9,7 @@
 	require(RELATIVEAPPROOT.'/view/templates/PageBody.php');
 	require(RELATIVEAPPROOT.'/view/templates/ForumDisplayTools.php');
 	require(RELATIVEAPPROOT.'/model/tools/ForumDataTools.php');
+	require(RELATIVEAPPROOT.'/model/tools/ConnexionTools.php');
 	
     			
 			

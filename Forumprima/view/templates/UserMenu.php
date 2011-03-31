@@ -17,7 +17,7 @@
  		'	&nbsp -  &nbsp'."\n". 
  		menuLink('Profil','./profil.php').
  		'	&nbsp -  &nbsp'."\n". 
- 		menuLink('Deconnexion','./deconnexion.php');
+ 		menuLink('Deconnexion ['.User_connexion::get_user_name().']','./deconnexion.php');
  		
  	return $data;		
  }

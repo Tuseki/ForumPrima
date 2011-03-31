@@ -20,9 +20,10 @@
 		'		<br>'."\n".			
 	    '      	<input type="submit" value="Connexion">'."\n".	    
 	    '	<br>' .
-			'	Pas encore inscrit? Inscrivez-vous <a href="./register.php">ici</a>' .			
-			'</p></div>'."\n".
+		'	Pas encore inscrit? Inscrivez-vous <a href="./register.php">ici</a><br>' .			
+		'	Mot de passe oublié? Cliquez ici <a href="./forgottenPassword.php">ici</a>' .
+		'</p></div>'."\n".
  		'</FORM>'."\n";  			 	 
- 	return $data;
+ 	return utf8_encode($data);
  }
 ?>

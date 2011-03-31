@@ -368,6 +368,41 @@
  			}
  		}
   	 }
+  	 public function get_user_name($user_id){  	 	
+  	 	if (isset($this->DBConnect)){ 	 		
+ 			try{		 	 	
+ 											    				 				
+ 				$result = $this->DBConnect->prepare("SELECT u_login FROM forum_user " . 									    									  
+ 									   "WHERE u_id = \"".$user_id."\"");
+				$result->execute();
+				return $result->fetch(); 									    				 				 								 				 			 				 	 				 				 			 				
+ 			}
+ 			catch(Exception $e){
+ 				die ("get user_name error nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+  	 }
+  	 public function email_exist($email){
+  	 	if (isset($this->DBConnect)){
+ 			try{		 		
+ 				$result = $this->DBConnect->prepare("SELECT u_login,u_id FROM forum_user WHERE u_mail = '".$email."'");
+ 				$result->execute();
+ 				
+ 				$result = $result->fetch();
+ 				 		
+ 				//si on a aucun résultat, c'est que l'email n'existe pas dans la db		 			 			   
+ 				if (empty($result)){ 					
+ 					return null;
+ 				} 
+ 				else return $result;
+ 				 				 			 				 		
+ 			}
+ 			catch(Exception $e){
+ 				die ("email exist nbr ".$e->getCode()."\n message : ".$e->getMessage());
+ 			}
+ 		}
+ 		else die ("DBConnect not initialized");
+  	 }
   	
  }
 ?>

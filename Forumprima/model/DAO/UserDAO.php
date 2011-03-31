@@ -51,9 +51,17 @@ require_once(APPPATH.'/model/DAO/mysql.php');
   	 	$id = $this->db->get_user_id($user_name);
   	 	return $id['u_id'];
   	 }
-  	 
-  	 
-   
+  	  public function get_user_name($user_id){
+  	 	$id = $this->db->get_user_name($user_id);
+  	 	return $id['u_login'];
+  	 }
+	 public function email_exist($email){
+	 	$result = $this->db->email_exist($email);
+	 	$user = new User();
+	 	$user->set_user_id($result['u_id']);
+	 	$user->set_user_name($result['u_login']);
+	 	return $user;
+	 }   
  }
  
  
